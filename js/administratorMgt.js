@@ -1,9 +1,12 @@
+var admin_id = "";
+
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
         adminSetting();
         getLoginInfo();
+        getAdminList();
     }
     else {
         window.open('Login.html', '_self');
@@ -133,6 +136,46 @@ $(document).ready(function() {
         window.open('Login.html', '_self');
         return false;
     });
+    
+    // add category button /////////////////////////////////////////////////////
+    $('#btn_admin_add').click(function() {
+        admin_id = "";
+        $('#mod_admin_header').html("New Administrator");
+        $('#mod_admin_mame').val("");
+        $('#mod_admin_email').val("");
+    });
+    
+    // mod add category save button ////////////////////////////////////////////
+    $('#mod_admin_btn_save').click(function() {
+        var admin_name = $.trim($('#mod_admin_mame').val());
+        var admin_email = $.trim($('#mod_admin_email').val());
+        if (admin_name === "" || admin_email === "") {
+            swal({title: "Error", text: "Please enter adminstrator name and email", type: "error"});
+            return false;
+        }
+        
+        if (admin_id === "") {
+            db_insertAdmin(admin_name, admin_email);
+        }
+        else {
+            db_updateAdmin(admin_id, admin_name, admin_email);
+        }
+        
+        $('#mod_add_admin').modal('hide');
+        getAdminList();
+        return false;
+    });
+    
+    // table category edit click event /////////////////////////////////////////
+    $('table').on('click', 'a[id^="admin_id_"]', function() {
+        admin_id = $(this).attr('id').replace("admin_id_", "");
+        var result = db_getAdminByID(admin_id);
+        $('#mod_admin_header').html("Edit Administrator");
+        $('#mod_admin_mame').val(result[0]['AdminName']);
+        $('#mod_admin_email').val(result[0]['AdminEmail']);
+        $('#mod_add_admin').modal('show');
+        return false;
+    });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -229,4 +272,28 @@ function adminSetting() {
         $('#nav_admin').hide();
         $('#nav_faculty').hide();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getAdminList() {
+    var result = new Array();
+    result = db_getAdminList();
+    
+    $('#tbl_body').empty();
+    var html = "";
+    for (var i = 0; i < result.length; i++) {
+        html += getAdminListHTML(result[i]['AdminID'], result[i]['AdminName'], result[i]['AdminEmail']);
+    }
+    $('#tbl_body').append(html);
+    
+    $('.animate-panel').animatePanel();
+}
+
+function getAdminListHTML(admin_id, admin_name, admin_email) {
+    var html = "<tr>";
+    html += "<td><a href=# id='admin_id_" + admin_id + "'><i class='fa fa-edit'></i></a></td>";
+    html += "<td>" + admin_name + "</td>";
+    html += "<td>" + admin_email + "</td>";
+    html += "</tr>";
+    return html;
 }

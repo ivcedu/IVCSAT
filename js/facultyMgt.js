@@ -1,9 +1,12 @@
+var faculty_id = "";
+
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
         adminSetting();
         getLoginInfo();
+        getFacultyList();
     }
     else {
         window.open('Login.html', '_self');
@@ -133,6 +136,59 @@ $(document).ready(function() {
         window.open('Login.html', '_self');
         return false;
     });
+    
+    // add category button /////////////////////////////////////////////////////
+    $('#btn_faculty_add').click(function() {
+        faculty_id = "";
+        $('#mod_faculty_header').html("New Faculty");
+        $('#mod_faculty_mame').val("");
+        $('#mod_faculty_email').val("");
+        $('#mod_faculty_title').val("");
+        $('#mod_faculty_phone').val("");
+        $('#mod_faculty_depart').val("");
+        $('#mod_faculty_division').val("");
+    });
+    
+    // mod add category save button ////////////////////////////////////////////
+    $('#mod_faculty_btn_save').click(function() {
+        var fac_name = $.trim($('#mod_faculty_mame').val());
+        var fac_email = $.trim($('#mod_faculty_email').val());
+        var fac_title = $.trim($('#mod_faculty_title').val());
+        var fac_phone = $.trim($('#mod_faculty_phone').val());
+        var fac_depart = $.trim($('#mod_faculty_depart').val());
+        var fac_division = $.trim($('#mod_faculty_division').val());
+        
+        if (fac_name === "" || fac_email === "") {
+            swal({title: "Error", text: "Please enter faculty name and email", type: "error"});
+            return false;
+        }
+        
+        if (faculty_id === "") {
+            db_insertFaculty(fac_name, fac_email, fac_title, fac_phone, fac_depart, fac_division);
+        }
+        else {
+            db_updateFaculty(faculty_id, fac_name, fac_email, fac_title, fac_phone, fac_depart, fac_division);
+        }
+        
+        $('#mod_add_faculty').modal('hide');
+        getFacultyList();
+        return false;
+    });
+    
+    // table category edit click event /////////////////////////////////////////
+    $('table').on('click', 'a[id^="faculty_id_"]', function() {
+        faculty_id = $(this).attr('id').replace("faculty_id_", "");
+        var result = db_getFacultyByID(faculty_id);
+        $('#mod_faculty_header').html("Edit Faculty");
+        $('#mod_faculty_mame').val(result[0]['FacName']);
+        $('#mod_faculty_email').val(result[0]['FacEmail']);
+        $('#mod_faculty_title').val(result[0]['FacTitle']);
+        $('#mod_faculty_phone').val(result[0]['FacPhone']);
+        $('#mod_faculty_depart').val(result[0]['FacDepart']);
+        $('#mod_faculty_division').val(result[0]['FacDivision']);
+        $('#mod_add_faculty').modal('show');
+        return false;
+    });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -229,4 +285,28 @@ function adminSetting() {
         $('#nav_admin').hide();
         $('#nav_faculty').hide();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getFacultyList() {
+    var result = new Array();
+    result = db_getFacultyList();
+    
+    $('#tbl_body').empty();
+    var html = "";
+    for (var i = 0; i < result.length; i++) {
+        html += getFacultyListHTML(result[i]['FacultyID'], result[i]['FacName'], result[i]['FacEmail']);
+    }
+    $('#tbl_body').append(html);
+    
+    $('.animate-panel').animatePanel();
+}
+
+function getFacultyListHTML(faculty_id, fac_name, fac_email) {
+    var html = "<tr>";
+    html += "<td><a href=# id='faculty_id_" + faculty_id + "'><i class='fa fa-edit'></i></a></td>";
+    html += "<td>" + fac_name + "</td>";
+    html += "<td>" + fac_email + "</td>";
+    html += "</tr>";
+    return html;
 }

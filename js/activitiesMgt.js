@@ -1,9 +1,11 @@
+var cat_id = "";
+
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
-        adminSetting();
         getLoginInfo();
+//        getCategoryList();
     }
     else {
         window.open('Login.html', '_self');
@@ -133,6 +135,41 @@ $(document).ready(function() {
         window.open('Login.html', '_self');
         return false;
     });
+    
+    // add category button /////////////////////////////////////////////////////
+    $('#btn_add').click(function() {
+        cat_id = "";
+        $('#mod_category_header').html("New Category");
+    });
+    
+    // mod add category save button ////////////////////////////////////////////
+    $('#mod_btn_save').click(function() {
+        var cat_name = $.trim($('#mod_category_mame').val());
+        if (cat_name === "") {
+            swal({title: "Error", text: "Please enter category name", type: "error"});
+            return false;
+        }
+        
+        if (cat_id === "") {
+            db_insertAdmin(cat_name);
+        }
+        else {
+            db_updateCategory(cat_id, cat_name);
+        }
+        
+        getCategoryList();
+        return false;
+    });
+    
+    // table category edit click event /////////////////////////////////////////
+    $('table').on('click', 'a[id^="cat_id_"]', function() {
+        cat_id = $(this).attr('id').replace("cat_id_", "");
+        var cat_name = db_getCategory(cat_id);
+        $('#mod_category_header').html("Edit Category");
+        $('#mod_category_mame').val(cat_name);
+        $('#mod_add_category').modal('show');
+        return false;
+    });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -221,12 +258,24 @@ function getLoginInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function adminSetting() {
+function getCategoryList() {
     var result = new Array();
-    result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
+    result = db_getCategoryList();
     
-    if (result.length === 0) {
-        $('#nav_admin').hide();
-        $('#nav_faculty').hide();
+    $('#tbl_body').empty();
+    var html = "";
+    for (var i = 0; i < result.length; i++) {
+        html += getCategoryListHTML(result[i]['CategoryID'], result[i]['CatName']);
     }
+    $('#tbl_body').append(html);
+    
+    $('.animate-panel').animatePanel();
+}
+
+function getCategoryListHTML(category_id, cat_name) {
+    var html = "<tr>";
+    html += "<td><a href=# id='cat_id_" + category_id + "'><i class='fa fa-edit'></i></a></td>";
+    html += "<td>" + cat_name + "</td>";
+    html += "</tr>";
+    return html;
 }
