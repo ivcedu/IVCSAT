@@ -1,14 +1,12 @@
-var activities_id = "";
+var student_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
+        adminSetting();
         getLoginInfo();
-        getCategoryList();
-        getActTypeList();
-        getFacultyList();
-        getActivitiesList();
+        getStudentList();
     }
     else {
         window.open('Login.html', '_self');
@@ -140,65 +138,48 @@ $(document).ready(function() {
     });
     
     // add category button /////////////////////////////////////////////////////
-    $('#btn_activity_add').click(function() {
-        activities_id = "";
-        $('#mod_activity_header').html("New Activity");
-        $('#mod_sel_category').val("0");
-        $('#mod_sel_category').selectpicker('refresh');
-        $('#mod_sel_acttype').val("0");
-        $('#mod_sel_acttype').selectpicker('refresh');
-        $('#mod_sel_faculty').val("0");
-        $('#mod_sel_faculty').selectpicker('refresh');
-        $('#mod_activity_mame').val("");
-        $('#mod_activity_descrip').val("");
+    $('#btn_student_add').click(function() {
+        student_id = "";
+        $('#mod_student_header').html("New Student");
+        $('#mod_student_id').val("");
+        $('#mod_student_mame').val("");
+        $('#mod_student_email').val("");
     });
     
     // mod add category save button ////////////////////////////////////////////
-    $('#mod_activity_btn_save').click(function() {
-        var category_id = $('#mod_sel_category').val();
-        var acttype_id = $('#mod_sel_acttype').val();
-        var faculty_id = $('#mod_sel_faculty').val();
-        var act_name = $.trim($('#mod_activity_mame').val());
-        var act_description = $.trim($('#mod_activity_descrip').val());
-        if (category_id === "0" || acttype_id === "0" || faculty_id === "0" || act_name === "") {
-            swal({title: "Error", text: "Please select category, activity type and faculty and enter activities name", type: "error"});
+    $('#mod_student_btn_save').click(function() {
+        var stu_id = $.trim($('#mod_student_id').val());
+        var stu_name = $.trim($('#mod_student_mame').val());
+        var stu_email = $.trim($('#mod_student_email').val());
+        
+        if (stu_id === "" || stu_name === "" || stu_email === "") {
+            swal({title: "Error", text: "Please enter student ID, name and email", type: "error"});
             return false;
         }
         
-        if (activities_id === "") {
-            db_insertActivities(category_id, acttype_id, faculty_id, act_name, act_description);
+        if (student_id === "") {
+            db_insertStudent(stu_id, stu_name, stu_email);
         }
         else {
-            db_updateActivities(activities_id, category_id, acttype_id, faculty_id, act_name, act_description);
+            db_updateStudent(student_id, stu_id, stu_name, stu_email);
         }
         
-        $('#mod_add_activity').modal('hide');
-        getActivitiesList();
+        $('#mod_add_student').modal('hide');
+        getStudentList();
         return false;
     });
     
     // table category edit click event /////////////////////////////////////////
-    $('table').on('click', 'a[id^="activities_id_"]', function() {
-        activities_id = $(this).attr('id').replace("activities_id_", "");
-        var result = db_getActivitiesByID(activities_id);
-        $('#mod_activity_header').html("Edit Activities");
-        $('#mod_sel_category').val(result[0]['CategoryID']);
-        $('#mod_sel_category').selectpicker('refresh');
-        $('#mod_sel_acttype').val(result[0]['ActTypeID']);
-        $('#mod_sel_acttype').selectpicker('refresh');
-        $('#mod_sel_faculty').val(result[0]['FacultyID']);
-        $('#mod_sel_faculty').selectpicker('refresh');
-        $('#mod_activity_mame').val(result[0]['ActName']);
-        $('#mod_activity_descrip').val(result[0]['ActDescription']);
-        $('#mod_add_activity').modal('show');
+    $('table').on('click', 'a[id^="student_id_"]', function() {
+        student_id = $(this).attr('id').replace("student_id_", "");
+        var result = db_getStudentByID(student_id);
+        $('#mod_student_header').html("Edit Student");
+        $('#mod_student_id').val(result[0]['StuID']);
+        $('#mod_student_mame').val(result[0]['StuName']);
+        $('#mod_student_email').val(result[0]['StuEmail']);
+        $('#mod_add_student').modal('show');
         return false;
     });
-    
-    // bootstrap selectpicker
-    $('.selectpicker').selectpicker();
-    
-    // auto size
-    $('#mod_activity_descrip').autosize();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -287,69 +268,37 @@ function getLoginInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function getCategoryList() {
-    var result = new Array(); 
-    result = db_getCategoryList();
-    
-    $('#mod_sel_category').empty();
-    var html = "<option value='0'>Select...</option>";
-    for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['CategoryID'] + "'>" + result[i]['CatName'] + "</option>";
-    }
-    
-    $('#mod_sel_category').append(html);
-    $('#mod_sel_category').selectpicker('refresh');
-}
-
-////////////////////////////////////////////////////////////////////////////////
-function getActTypeList() {
-    var result = new Array(); 
-    result = db_getActTypeList();
-    
-    $('#mod_sel_acttype').empty();
-    var html = "<option value='0'>Select...</option>";
-    for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['ActTypeID'] + "'>" + result[i]['ActTypeName'] + "</option>";
-    }
-    
-    $('#mod_sel_acttype').append(html);
-    $('#mod_sel_acttype').selectpicker('refresh');
-}
-
-////////////////////////////////////////////////////////////////////////////////
-function getFacultyList() {
-    var result = new Array(); 
-    result = db_getFacultyList();
-    
-    $('#mod_sel_faculty').empty();
-    var html = "<option value='0'>Select...</option>";
-    for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['FacultyID'] + "'>" + result[i]['FacName'] + "</option>";
-    }
-    
-    $('#mod_sel_faculty').append(html);
-    $('#mod_sel_faculty').selectpicker('refresh');
-}
-
-////////////////////////////////////////////////////////////////////////////////
-function getActivitiesList() {
+function adminSetting() {
     var result = new Array();
-    result = db_getActivitiesList();
+    result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
+    
+    if (result.length === 0) {
+        $('#nav_admin').hide();
+        $('#nav_faculty').hide();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getStudentList() {
+    var result = new Array();
+    result = db_getStudentList();
     
     $('#tbl_body').empty();
     var html = "";
     for (var i = 0; i < result.length; i++) {
-        html += getActivitiesListHTML(result[i]['ActivitiesID'], result[i]['ActName']);
+        html += getStudentListHTML(result[i]['StudentID'], result[i]['StuID'], result[i]['StuName'], result[i]['StuEmail']);
     }
     $('#tbl_body').append(html);
     
     $('.animate-panel').animatePanel();
 }
 
-function getActivitiesListHTML(activities_id, act_name) {
+function getStudentListHTML(student_id, stu_id, stu_name, stu_email) {
     var html = "<tr>";
-    html += "<td><a href=# id='activities_id_" + activities_id + "'><i class='fa fa-edit'></i></a></td>";
-    html += "<td>" + act_name + "</td>";
+    html += "<td><a href=# id='student_id_" + student_id + "'><i class='fa fa-edit'></i></a></td>";
+    html += "<td>" + stu_id + "</td>";
+    html += "<td>" + stu_name + "</td>";
+    html += "<td>" + stu_email + "</td>";
     html += "</tr>";
     return html;
 }

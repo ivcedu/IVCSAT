@@ -58,14 +58,23 @@
                     <li id="nav_faculty">
                         <a href="facultyMgt.html"><span class="nav-label">Faculty</span></a>
                     </li>
+                    <li>
+                        <a href="studentMgt.html"><span class="nav-label">Student</span></a>
+                    </li>
                     <li class="active">
                         <a href="categoryMgt.html"><span class="nav-label">Category</span></a>
+                    </li>
+                    <li>
+                        <a href="acttypeMgt.html"><span class="nav-label">Activities Type</span></a>
                     </li>
                     <li>
                         <a href="activitiesMgt.html"><span class="nav-label">Activities</span></a>
                     </li>
                     <li>
-                        <a href="studentRequest.html"><span class="nav-label">Student Request</span></a>
+                        <a href="actStudentList.html"><span class="nav-label">Activities Student List</span></a>
+                    </li>
+                    <li>
+                        <a href="studentRequest.html"><span class="nav-label">Request</span></a>
                     </li>
                 </ul>
             </div>
@@ -138,7 +147,7 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-2" style="padding-top: 7px;">Category:</div>
-                                <div class="col-md-10"><input class="col-md-12 form-control" type="text" id="mod_category_mame"></div>
+                                <div class="col-md-10"><textarea class="col-md-12 form-control" style="height: 55px; resize: vertical;" id="mod_category_mame"></textarea></div>
                             </div>
                         </div>
                     </div>
@@ -160,6 +169,7 @@
         <script src="../homer-1.8/vendor/sparkline/index.js"></script>
         <!-- include javascript -->
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
+        <script src="../include/jquery-autosize/jquery.autosize.1.18.1.min.js"></script>
         <!-- application javascript -->
         <script src="js/categoryMgt.js"></script>
         <script src="js/session_data.js"></script>

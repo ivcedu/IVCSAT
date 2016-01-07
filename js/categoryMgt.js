@@ -142,6 +142,7 @@ $(document).ready(function() {
     $('#btn_cat_add').click(function() {
         cat_id = "";
         $('#mod_category_header').html("New Category");
+        $('#mod_category_mame').val("");
     });
     
     // mod add category save button ////////////////////////////////////////////
@@ -167,12 +168,15 @@ $(document).ready(function() {
     // table category edit click event /////////////////////////////////////////
     $('table').on('click', 'a[id^="cat_id_"]', function() {
         cat_id = $(this).attr('id').replace("cat_id_", "");
-        var cat_name = db_getCategory(cat_id);
+        var cat_name = db_getCategoryByID(cat_id);
         $('#mod_category_header').html("Edit Category");
         $('#mod_category_mame').val(cat_name);
         $('#mod_add_category').modal('show');
         return false;
     });
+    
+    // auto size
+    $('#mod_category_mame').autosize();
     
     // jquery datatables initialize ////////////////////////////////////////////
 //    m_table = $('#tbl_category_list').DataTable({ paging: false, bInfo: false});

@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="../homer-1.8/styles/style.css"/>
         <!-- include css -->
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
+        <link rel="stylesheet" href="../include/bootstrap-select/css/bootstrap-select.1.5.4.min.css"/>
         <!-- application css -->
     </head>
     <body>
@@ -59,13 +60,22 @@
                         <a href="facultyMgt.html"><span class="nav-label">Faculty</span></a>
                     </li>
                     <li>
+                        <a href="studentMgt.html"><span class="nav-label">Student</span></a>
+                    </li>
+                    <li>
                         <a href="categoryMgt.html"><span class="nav-label">Category</span></a>
+                    </li>
+                    <li>
+                        <a href="acttypeMgt.html"><span class="nav-label">Activities Type</span></a>
                     </li>
                     <li class="active">
                         <a href="activitiesMgt.html"><span class="nav-label">Activities</span></a>
                     </li>
                     <li>
-                        <a href="studentRequest.html"><span class="nav-label">Student Request</span></a>
+                        <a href="actStudentList.html"><span class="nav-label">Activities Student List</span></a>
+                    </li>
+                    <li>
+                        <a href="studentRequest.html"><span class="nav-label">Request</span></a>
                     </li>
                 </ul>
             </div>
@@ -83,7 +93,7 @@
                             <br>
                             <div class="row form-horizontal">
                                 <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2">
-                                    <button type="button" class="btn btn-primary col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="modal" data-target="#mod_add_activity" id="btn_add">Add Activity</button>
+                                    <button type="button" class="btn btn-primary col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="modal" data-target="#mod_add_activity" id="btn_activity_add">Add Activity</button>
                                 </div>
                             </div>
                         </div>
@@ -138,13 +148,33 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-2" style="padding-top: 7px;">Category:</div>
+                                <div class="col-md-10"><select class="selectpicker form-control" data-container="body" id="mod_sel_category"></select></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2" style="padding-top: 7px;">Act Type:</div>
+                                <div class="col-md-10"><select class="selectpicker form-control" data-container="body" id="mod_sel_acttype"></select></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2" style="padding-top: 7px;">Faculty:</div>
+                                <div class="col-md-10"><select class="selectpicker form-control" data-container="body" id="mod_sel_faculty"></select></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2" style="padding-top: 7px;">Activities:</div>
                                 <div class="col-md-10"><input class="col-md-12 form-control" type="text" id="mod_activity_mame"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2" style="padding-top: 7px;">Description:</div>
+                                <div class="col-md-10"><textarea class="col-md-12 form-control" style="height: 55px; resize: vertical;" id="mod_activity_descrip"></textarea></div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="mod_btn_save">Save</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="mod_activity_btn_save">Save</button>
                     </div>
                 </div>
             </div>
@@ -160,6 +190,8 @@
         <script src="../homer-1.8/vendor/sparkline/index.js"></script>
         <!-- include javascript -->
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
+        <script src="../include/bootstrap-select/js/bootstrap-select.1.5.4.min.js"></script>
+        <script src="../include/jquery-autosize/jquery.autosize.1.18.1.min.js"></script>
         <!-- application javascript -->
         <script src="js/activitiesMgt.js"></script>
         <script src="js/session_data.js"></script>

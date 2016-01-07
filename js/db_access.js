@@ -83,6 +83,33 @@ function db_getFacultyByID(FacultyID) {
     return result;
 }
 
+function db_getStudentList() {   
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getStudentList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getStudentByID(StudentID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getStudentByID.php",
+        data:{StudentID:StudentID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 function db_getCategoryList() {   
     var result = new Array();
     $.ajax({
@@ -96,12 +123,79 @@ function db_getCategoryList() {
     return result;
 }
 
-function db_getCategory(CategoryID) {
+function db_getCategoryByID(CategoryID) {
     var result = "";
     $.ajax({
         type:"POST",
-        url:"php/db_getCategory.php",
+        url:"php/db_getCategoryByID.php",
         data:{CategoryID:CategoryID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getActTypeList() {   
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getActTypeList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getActTypeByID(ActTypeID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getActTypeByID.php",
+        data:{ActTypeID:ActTypeID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getActivitiesList() {   
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getActivitiesList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getActivitiesByID(ActivitiesID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getActivitiesByID.php",
+        data:{ActivitiesID:ActivitiesID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getActStudentList() {   
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getActStudentList.php",
         async: false,  
         success:function(data) {
             result = JSON.parse(data);
@@ -139,12 +233,68 @@ function db_insertFaculty(FacName, FacEmail, FacTitle, FacPhone, FacDepart, FacD
     return ResultID;
 }
 
+function db_insertStudent(StuID, StuName, StuEmail) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertStudent.php",
+        data:{StuID:StuID, StuName:StuName, StuEmail:StuEmail},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
 function db_insertCategory(CatName) {
     var ResultID = "";
     $.ajax({
         type:"POST",
         url:"php/db_insertCategory.php",
         data:{CatName:CatName},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertActType(ActTypeName, ActTypeDescrip) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertActType.php",
+        data:{ActTypeName:ActTypeName, ActTypeDescrip:ActTypeDescrip},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertActivities(CategoryID, ActTypeID, FacultyID, ActName, ActDescription) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertActivities.php",
+        data:{CategoryID:CategoryID, ActTypeID:ActTypeID, FacultyID:FacultyID, ActName:ActName, ActDescription:ActDescription},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertActStuList(ActivitiesID, StudentID) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertActStuList.php",
+        data:{ActivitiesID:ActivitiesID, StudentID:StudentID},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
@@ -182,12 +332,54 @@ function db_updateFaculty(FacultyID, FacName, FacEmail, FacTitle, FacPhone, FacD
     return Result;
 }
 
+function db_updateStudent(StudentID, StuID, StuName, StuEmail) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateStudent.php",
+        data:{StudentID:StudentID, StuID:StuID, StuName:StuName, StuEmail:StuEmail},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
 function db_updateCategory(CategoryID, CatName) {
     var Result = false;
     $.ajax({
         type:"POST",
         url:"php/db_updateCategory.php",
         data:{CategoryID:CategoryID, CatName:CatName},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_updateActType(ActTypeID, ActTypeName, ActTypeDescrip) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateActType.php",
+        data:{ActTypeID:ActTypeID, ActTypeName:ActTypeName, ActTypeDescrip:ActTypeDescrip},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_updateActivities(ActivitiesID, CategoryID, ActTypeID, FacultyID, ActName, ActDescription) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateActivities.php",
+        data:{ActivitiesID:ActivitiesID, CategoryID:CategoryID, ActTypeID:ActTypeID, FacultyID:FacultyID, ActName:ActName, ActDescription:ActDescription},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);
