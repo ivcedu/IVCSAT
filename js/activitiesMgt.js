@@ -181,7 +181,6 @@ $(document).ready(function() {
     // table category edit click event /////////////////////////////////////////
     $('table').on('click', 'a[id^="activities_id_"]', function() {
         $('#mod_add_activity').modal('show');
-        $('#mod_activity_descrip').val("");
 
         activities_id = $(this).attr('id').replace("activities_id_", "");
         var result = db_getActivitiesByID(activities_id);
@@ -303,7 +302,8 @@ function getCategoryList() {
     $('#mod_sel_category').empty();
     var html = "<option value='0'>Select...</option>";
     for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['CategoryID'] + "'>" + result[i]['CatName'] + "</option>";
+        var str_id = result[i]['CategoryID'].replace("<a href=# id='cat_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
+        html += "<option value='" + str_id + "'>" + result[i]['CatName'] + "</option>";
     }
     
     $('#mod_sel_category').append(html);
@@ -318,7 +318,8 @@ function getActTypeList() {
     $('#mod_sel_acttype').empty();
     var html = "<option value='0'>Select...</option>";
     for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['ActTypeID'] + "'>" + result[i]['ActTypeName'] + "</option>";
+        var str_act_type_id = result[i]['ActTypeID'].replace("<a href=# id='acttype_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
+        html += "<option value='" + str_act_type_id + "'>" + result[i]['ActTypeName'] + "</option>";
     }
     
     $('#mod_sel_acttype').append(html);
@@ -333,7 +334,8 @@ function getFacultyList() {
     $('#mod_sel_faculty').empty();
     var html = "<option value='0'>Select...</option>";
     for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['FacultyID'] + "'>" + result[i]['FacName'] + "</option>";
+        var str_faculty_id = result[i]['FacultyID'].replace("<a href=# id='faculty_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
+        html += "<option value='" + str_faculty_id + "'>" + result[i]['FacName'] + "</option>";
     }
     
     $('#mod_sel_faculty').append(html);

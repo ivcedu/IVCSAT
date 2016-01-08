@@ -154,7 +154,7 @@ $(document).ready(function() {
         }
         
         if (cat_id === "") {
-            db_insertAdmin(cat_name);
+            db_insertCategory(cat_name);
         }
         else {
             db_updateCategory(cat_id, cat_name);
@@ -168,7 +168,6 @@ $(document).ready(function() {
     // table category edit click event /////////////////////////////////////////
     $('table').on('click', 'a[id^="cat_id_"]', function() {
         $('#mod_add_category').modal('show');
-        $('#mod_category_mame').val("");
         
         cat_id = $(this).attr('id').replace("cat_id_", "");
         var cat_name = db_getCategoryByID(cat_id);

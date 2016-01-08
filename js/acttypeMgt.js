@@ -171,7 +171,6 @@ $(document).ready(function() {
     // table category edit click event /////////////////////////////////////////
     $('table').on('click', 'a[id^="acttype_id_"]', function() {
         $('#mod_add_acttype').modal('show');
-        $('#mod_acttype_descrip').val("");
         
         acttype_id = $(this).attr('id').replace("acttype_id_", "");
         var result = db_getActTypeByID(acttype_id);    
