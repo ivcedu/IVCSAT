@@ -1,3 +1,4 @@
+var m_table;
 var acttype_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,7 +143,7 @@ $(document).ready(function() {
         acttype_id = "";
         $('#mod_acttype_header').html("New Activity Type");
         $('#mod_acttype_mame').val("");
-        $('#mod_acttype_descrip').val("");
+        $('#mod_acttype_descrip').val("").trigger('autosize.resize');
     });
     
     // mod add category save button ////////////////////////////////////////////
@@ -169,17 +170,25 @@ $(document).ready(function() {
     
     // table category edit click event /////////////////////////////////////////
     $('table').on('click', 'a[id^="acttype_id_"]', function() {
-        acttype_id = $(this).attr('id').replace("acttype_id_", "");
-        var result = db_getActTypeByID(acttype_id);
-        $('#mod_acttype_header').html("Edit Activity Type");
-        $('#mod_acttype_mame').val(result[0]['ActTypeName']);
-        $('#mod_acttype_descrip').val(result[0]['ActTypeDescrip']);
         $('#mod_add_acttype').modal('show');
+        $('#mod_acttype_descrip').val("");
+        
+        acttype_id = $(this).attr('id').replace("acttype_id_", "");
+        var result = db_getActTypeByID(acttype_id);    
+        setTimeout(function() { 
+                $('#mod_acttype_header').html("Edit Activity Type");
+                $('#mod_acttype_mame').val(result[0]['ActTypeName']);
+                $('#mod_acttype_descrip').val(result[0]['ActTypeDescrip']).trigger('autosize.resize'); 
+            }, 200);
+
         return false;
     });
     
     // auto size
     $('#mod_acttype_descrip').autosize();
+    
+    // jquery datatables initialize ////////////////////////////////////////////
+    m_table = $('#tbl_acttype_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -283,21 +292,8 @@ function getActTypeList() {
     var result = new Array();
     result = db_getActTypeList();
     
-    $('#tbl_body').empty();
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += getActTypeListHTML(result[i]['ActTypeID'], result[i]['ActTypeName'], result[i]['ActTypeDescrip']);
-    }
-    $('#tbl_body').append(html);
+    m_table.clear();
+    m_table.rows.add(result).draw();
     
     $('.animate-panel').animatePanel();
-}
-
-function getActTypeListHTML(acttype_id, acttype_name, acttype_descrip) {
-    var html = "<tr>";
-    html += "<td><a href=# id='acttype_id_" + acttype_id + "'><i class='fa fa-edit'></i></a></td>";
-    html += "<td>" + acttype_name + "</td>";
-    html += "<td>" + acttype_descrip + "</td>";
-    html += "</tr>";
-    return html;
 }

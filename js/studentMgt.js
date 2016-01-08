@@ -1,3 +1,4 @@
+var m_table;
 var student_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -180,6 +181,9 @@ $(document).ready(function() {
         $('#mod_add_student').modal('show');
         return false;
     });
+    
+    // jquery datatables initialize ////////////////////////////////////////////
+    m_table = $('#tbl_student_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -283,22 +287,8 @@ function getStudentList() {
     var result = new Array();
     result = db_getStudentList();
     
-    $('#tbl_body').empty();
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += getStudentListHTML(result[i]['StudentID'], result[i]['StuID'], result[i]['StuName'], result[i]['StuEmail']);
-    }
-    $('#tbl_body').append(html);
+    m_table.clear();
+    m_table.rows.add(result).draw();
     
     $('.animate-panel').animatePanel();
-}
-
-function getStudentListHTML(student_id, stu_id, stu_name, stu_email) {
-    var html = "<tr>";
-    html += "<td><a href=# id='student_id_" + student_id + "'><i class='fa fa-edit'></i></a></td>";
-    html += "<td>" + stu_id + "</td>";
-    html += "<td>" + stu_name + "</td>";
-    html += "<td>" + stu_email + "</td>";
-    html += "</tr>";
-    return html;
 }

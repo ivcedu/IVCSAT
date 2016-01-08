@@ -1,3 +1,4 @@
+var m_table;
 var admin_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -176,6 +177,9 @@ $(document).ready(function() {
         $('#mod_add_admin').modal('show');
         return false;
     });
+    
+    // jquery datatables initialize ////////////////////////////////////////////
+    m_table = $('#tbl_admin_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -279,21 +283,8 @@ function getAdminList() {
     var result = new Array();
     result = db_getAdminList();
     
-    $('#tbl_body').empty();
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += getAdminListHTML(result[i]['AdminID'], result[i]['AdminName'], result[i]['AdminEmail']);
-    }
-    $('#tbl_body').append(html);
+    m_table.clear();
+    m_table.rows.add(result).draw();
     
     $('.animate-panel').animatePanel();
-}
-
-function getAdminListHTML(admin_id, admin_name, admin_email) {
-    var html = "<tr>";
-    html += "<td><a href=# id='admin_id_" + admin_id + "'><i class='fa fa-edit'></i></a></td>";
-    html += "<td>" + admin_name + "</td>";
-    html += "<td>" + admin_email + "</td>";
-    html += "</tr>";
-    return html;
 }

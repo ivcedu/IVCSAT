@@ -1,4 +1,4 @@
-//var m_table;
+var m_table;
 var cat_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,7 +142,7 @@ $(document).ready(function() {
     $('#btn_cat_add').click(function() {
         cat_id = "";
         $('#mod_category_header').html("New Category");
-        $('#mod_category_mame').val("");
+        $('#mod_category_mame').val("").trigger('autosize.resize');
     });
     
     // mod add category save button ////////////////////////////////////////////
@@ -167,11 +167,16 @@ $(document).ready(function() {
     
     // table category edit click event /////////////////////////////////////////
     $('table').on('click', 'a[id^="cat_id_"]', function() {
+        $('#mod_add_category').modal('show');
+        $('#mod_category_mame').val("");
+        
         cat_id = $(this).attr('id').replace("cat_id_", "");
         var cat_name = db_getCategoryByID(cat_id);
-        $('#mod_category_header').html("Edit Category");
-        $('#mod_category_mame').val(cat_name);
-        $('#mod_add_category').modal('show');
+        setTimeout(function() { 
+                $('#mod_category_header').html("Edit Category");
+                $('#mod_category_mame').val(cat_name).trigger('autosize.resize');
+            }, 200);
+        
         return false;
     });
     
@@ -179,7 +184,7 @@ $(document).ready(function() {
     $('#mod_category_mame').autosize();
     
     // jquery datatables initialize ////////////////////////////////////////////
-//    m_table = $('#tbl_category_list').DataTable({ paging: false, bInfo: false});
+    m_table = $('#tbl_category_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -283,23 +288,8 @@ function getCategoryList() {
     var result = new Array();
     result = db_getCategoryList();
 
-//    m_table.clear();
-//    m_table.rows.add(result).draw();
-    
-    $('#tbl_body').empty();
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += getCategoryListHTML(result[i]['CategoryID'], result[i]['CatName']);
-    }
-    $('#tbl_body').append(html);
+    m_table.clear();
+    m_table.rows.add(result).draw();
     
     $('.animate-panel').animatePanel();
-}
-
-function getCategoryListHTML(category_id, cat_name) {
-    var html = "<tr>";
-    html += "<td><a href=# id='cat_id_" + category_id + "'><i class='fa fa-edit'></i></a></td>";
-    html += "<td>" + cat_name + "</td>";
-    html += "</tr>";
-    return html;
 }

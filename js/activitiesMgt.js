@@ -1,3 +1,4 @@
+var m_table;
 var activities_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,7 +151,7 @@ $(document).ready(function() {
         $('#mod_sel_faculty').val("0");
         $('#mod_sel_faculty').selectpicker('refresh');
         $('#mod_activity_mame').val("");
-        $('#mod_activity_descrip').val("");
+        $('#mod_activity_descrip').val("").trigger('autosize.resize');
     });
     
     // mod add category save button ////////////////////////////////////////////
@@ -179,18 +180,23 @@ $(document).ready(function() {
     
     // table category edit click event /////////////////////////////////////////
     $('table').on('click', 'a[id^="activities_id_"]', function() {
+        $('#mod_add_activity').modal('show');
+        $('#mod_activity_descrip').val("");
+
         activities_id = $(this).attr('id').replace("activities_id_", "");
         var result = db_getActivitiesByID(activities_id);
-        $('#mod_activity_header').html("Edit Activities");
-        $('#mod_sel_category').val(result[0]['CategoryID']);
-        $('#mod_sel_category').selectpicker('refresh');
-        $('#mod_sel_acttype').val(result[0]['ActTypeID']);
-        $('#mod_sel_acttype').selectpicker('refresh');
-        $('#mod_sel_faculty').val(result[0]['FacultyID']);
-        $('#mod_sel_faculty').selectpicker('refresh');
-        $('#mod_activity_mame').val(result[0]['ActName']);
-        $('#mod_activity_descrip').val(result[0]['ActDescription']);
-        $('#mod_add_activity').modal('show');
+        setTimeout(function() { 
+                $('#mod_activity_header').html("Edit Activities");
+                $('#mod_sel_category').val(result[0]['CategoryID']);
+                $('#mod_sel_category').selectpicker('refresh');
+                $('#mod_sel_acttype').val(result[0]['ActTypeID']);
+                $('#mod_sel_acttype').selectpicker('refresh');
+                $('#mod_sel_faculty').val(result[0]['FacultyID']);
+                $('#mod_sel_faculty').selectpicker('refresh');
+                $('#mod_activity_mame').val(result[0]['ActName']);
+                $('#mod_activity_descrip').val(result[0]['ActDescription']).trigger('autosize.resize'); 
+            }, 200);
+        
         return false;
     });
     
@@ -199,6 +205,9 @@ $(document).ready(function() {
     
     // auto size
     $('#mod_activity_descrip').autosize();
+    
+    // jquery datatables initialize ////////////////////////////////////////////
+    m_table = $('#tbl_activities_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -336,20 +345,8 @@ function getActivitiesList() {
     var result = new Array();
     result = db_getActivitiesList();
     
-    $('#tbl_body').empty();
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += getActivitiesListHTML(result[i]['ActivitiesID'], result[i]['ActName']);
-    }
-    $('#tbl_body').append(html);
+    m_table.clear();
+    m_table.rows.add(result).draw();
     
     $('.animate-panel').animatePanel();
-}
-
-function getActivitiesListHTML(activities_id, act_name) {
-    var html = "<tr>";
-    html += "<td><a href=# id='activities_id_" + activities_id + "'><i class='fa fa-edit'></i></a></td>";
-    html += "<td>" + act_name + "</td>";
-    html += "</tr>";
-    return html;
 }

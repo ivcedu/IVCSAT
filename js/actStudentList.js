@@ -1,3 +1,4 @@
+var m_table;
 var act_stu_list_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,11 +167,26 @@ $(document).ready(function() {
     // table category edit click event /////////////////////////////////////////
     $('table').on('click', 'a[id^="act_stu_list_id_"]', function() {
         act_stu_list_id = $(this).attr('id').replace("act_stu_list_id_", "");
+        
+        swal({ title: "Are you sure?", 
+               text: "You will not be able to recover this activities student list",
+               type: "warning", 
+               showCancelButton: true, 
+               confirmButtonColor: "#DD6B55", 
+               confirmButtonText: "Yes, delete it!",
+               closeOnConfirm: false }, 
+               function() {
+                   db_deleteActStuList(act_stu_list_id);
+                   getActStudentList();
+                   swal("Deleted!", "Selected student has been deleted from activities.", "success");
+               }
+            );
+        
         return false;
     });
     
     // jquery datatables initialize ////////////////////////////////////////////
-    $('#tbl_act_student_list').DataTable({ paging: false, bInfo: false});
+    m_table = $('#tbl_act_student_list').DataTable({ paging: false, bInfo: false });
     
     // bootstrap selectpicker
     $('.selectpicker').selectpicker();
@@ -296,21 +312,8 @@ function getActStudentList() {
     var result = new Array();
     result = db_getActStudentList();
     
-    $('#tbl_body').empty();
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += getActStudentListHTML(result[i]['ActStuListID'], result[i]['ActName'], result[i]['StuName']);
-    }
-    $('#tbl_body').append(html);
+    m_table.clear();
+    m_table.rows.add(result).draw();
     
     $('.animate-panel').animatePanel();
-}
-
-function getActStudentListHTML(act_stu_list_id, act_name, stu_name) {
-    var html = "<tr>";
-    html += "<td>" + act_name + "</td>";
-    html += "<td>" + stu_name + "</td>";
-    html += "<td><a href=# id='act_stu_list_id_" + act_stu_list_id + "'><i class='fa fa-trash-o'></i></a></td>";
-    html += "</tr>";
-    return html;
 }

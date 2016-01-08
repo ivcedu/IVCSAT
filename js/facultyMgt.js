@@ -1,3 +1,4 @@
+var m_table;
 var faculty_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -189,6 +190,9 @@ $(document).ready(function() {
         $('#mod_add_faculty').modal('show');
         return false;
     });
+    
+    // jquery datatables initialize ////////////////////////////////////////////
+    m_table = $('#tbl_faculty_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -292,21 +296,8 @@ function getFacultyList() {
     var result = new Array();
     result = db_getFacultyList();
     
-    $('#tbl_body').empty();
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += getFacultyListHTML(result[i]['FacultyID'], result[i]['FacName'], result[i]['FacEmail']);
-    }
-    $('#tbl_body').append(html);
+    m_table.clear();
+    m_table.rows.add(result).draw();
     
     $('.animate-panel').animatePanel();
-}
-
-function getFacultyListHTML(faculty_id, fac_name, fac_email) {
-    var html = "<tr>";
-    html += "<td><a href=# id='faculty_id_" + faculty_id + "'><i class='fa fa-edit'></i></a></td>";
-    html += "<td>" + fac_name + "</td>";
-    html += "<td>" + fac_email + "</td>";
-    html += "</tr>";
-    return html;
 }

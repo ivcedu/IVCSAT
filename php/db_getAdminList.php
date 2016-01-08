@@ -1,7 +1,9 @@
 <?php
     require("config.php");
 
-    $query = "SELECT * FROM [IVCSAT].[dbo].[Admin] ORDER BY AdminName ASC";
+    $query = "SELECT AdminName, AdminEmail, "
+            . "'<a href=# id=''admin_id_' + CONVERT(NVARCHAR(255), AdminID) + '''><i class=''fa fa-edit''></i></a>' AS AdminID "
+            . "FROM [IVCSAT].[dbo].[Admin] ORDER BY AdminName ASC";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

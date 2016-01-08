@@ -389,16 +389,16 @@ function db_updateActivities(ActivitiesID, CategoryID, ActTypeID, FacultyID, Act
 }
 
 // delete DB ///////////////////////////////////////////////////////////////////
-//function db_deleteAdmin(AdminID) {
-//    var Result = false;
-//    $.ajax({
-//        type:"POST",
-//        url:"php/db_deleteAdmin.php",
-//        data:{AdminID:AdminID},
-//        async: false,  
-//        success:function(data) {
-//            Result = JSON.parse(data);
-//        }
-//    });
-//    return Result;
-//}
+function db_deleteActStuList(ActStuListID) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_deleteActStuList.php",
+        data:{ActStuListID:ActStuListID},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
