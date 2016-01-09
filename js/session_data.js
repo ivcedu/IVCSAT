@@ -9,11 +9,10 @@ function sessionData_staff_faculty_login(name, email, etype, phone, title, depar
     sessionStorage.setItem('ss_sf_sat_Division', division);
 }
 
-function sessionData_student_login(student_id, stu_name, stu_email, stu_phone) {  
+function sessionData_student_login(student_id, stu_name, stu_email) {  
     sessionStorage.setItem('ss_stu_sat_StudentID', student_id);
     sessionStorage.setItem('ss_stu_sat_Name', stu_name);
     sessionStorage.setItem('ss_stu_sat_Email', stu_email);
-    sessionStorage.setItem('ss_stu_sat_Phone', stu_phone);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

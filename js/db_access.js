@@ -14,6 +14,21 @@ function getLoginUserInfo(php_file, user, pass) {
     return result;
 }
 
+// get tardis DB ///////////////////////////////////////////////////////////////
+function tardis_getStudentInfo(StudentID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/tardis_getStudentInfo.php",
+        data:{StudentID:StudentID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // get DB //////////////////////////////////////////////////////////////////////
 function db_getAdminList() {   
     var result = new Array();

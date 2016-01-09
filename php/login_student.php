@@ -28,11 +28,8 @@
                 if (array_key_exists('mail', $data[0])) {
                     $email = $data[0]["mail"][0];
                 }
-                if (array_key_exists('telephonenumber', $data[0])) {
-                    $phone = $data[0]["telephonenumber"][0];
-                }
 
-                $result = array($studentid, $display_name, $email, $phone);
+                $result = array($studentid, $display_name, $email);
                 echo json_encode($result);
             }
         }

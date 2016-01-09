@@ -84,9 +84,8 @@ function loginInfo() {
         var student_id = objToString(student[0]);
         var stu_name = objToString(student[1]);
         var stu_email = objToString(student[2]);
-        var stu_phone = objToString(student[3]);
         sessionStorage.setItem('ss_sat_Login', "Student");
-        sessionData_student_login(student_id, stu_name, stu_email, stu_phone);
+        sessionData_student_login(student_id, stu_name, stu_email);
         return true;
     }
     
