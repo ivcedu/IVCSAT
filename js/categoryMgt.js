@@ -172,9 +172,9 @@ $(document).ready(function() {
         cat_id = $(this).attr('id').replace("cat_id_", "");
         var cat_name = db_getCategoryByID(cat_id);
         setTimeout(function() { 
-                $('#mod_category_header').html("Edit Category");
-                $('#mod_category_mame').val(cat_name).trigger('autosize.resize');
-            }, 200);
+            $('#mod_category_header').html("Edit Category");
+            $('#mod_category_mame').val(cat_name).trigger('autosize.resize');
+        }, 200);
         
         return false;
     });

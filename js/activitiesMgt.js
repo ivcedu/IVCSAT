@@ -185,16 +185,16 @@ $(document).ready(function() {
         activities_id = $(this).attr('id').replace("activities_id_", "");
         var result = db_getActivitiesByID(activities_id);
         setTimeout(function() { 
-                $('#mod_activity_header').html("Edit Activities");
-                $('#mod_sel_category').val(result[0]['CategoryID']);
-                $('#mod_sel_category').selectpicker('refresh');
-                $('#mod_sel_acttype').val(result[0]['ActTypeID']);
-                $('#mod_sel_acttype').selectpicker('refresh');
-                $('#mod_sel_faculty').val(result[0]['FacultyID']);
-                $('#mod_sel_faculty').selectpicker('refresh');
-                $('#mod_activity_mame').val(result[0]['ActName']);
-                $('#mod_activity_descrip').val(result[0]['ActDescription']).trigger('autosize.resize'); 
-            }, 200);
+            $('#mod_activity_header').html("Edit Activities");
+            $('#mod_sel_category').val(result[0]['CategoryID']);
+            $('#mod_sel_category').selectpicker('refresh');
+            $('#mod_sel_acttype').val(result[0]['ActTypeID']);
+            $('#mod_sel_acttype').selectpicker('refresh');
+            $('#mod_sel_faculty').val(result[0]['FacultyID']);
+            $('#mod_sel_faculty').selectpicker('refresh');
+            $('#mod_activity_mame').val(result[0]['ActName']);
+            $('#mod_activity_descrip').val(result[0]['ActDescription']).trigger('autosize.resize'); 
+        }, 200);
         
         return false;
     });

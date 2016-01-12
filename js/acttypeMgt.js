@@ -175,10 +175,10 @@ $(document).ready(function() {
         acttype_id = $(this).attr('id').replace("acttype_id_", "");
         var result = db_getActTypeByID(acttype_id);    
         setTimeout(function() { 
-                $('#mod_acttype_header').html("Edit Activity Type");
-                $('#mod_acttype_mame').val(result[0]['ActTypeName']);
-                $('#mod_acttype_descrip').val(result[0]['ActTypeDescrip']).trigger('autosize.resize'); 
-            }, 200);
+            $('#mod_acttype_header').html("Edit Activity Type");
+            $('#mod_acttype_mame').val(result[0]['ActTypeName']);
+            $('#mod_acttype_descrip').val(result[0]['ActTypeDescrip']).trigger('autosize.resize'); 
+        }, 200);
 
         return false;
     });

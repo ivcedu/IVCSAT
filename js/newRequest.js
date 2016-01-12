@@ -1,8 +1,12 @@
+var m_table;
+var row_idx;
+
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
         getLoginInfo();
+        setStuActList();
     }
     else {
         window.open('Login.html', '_self');
@@ -132,6 +136,114 @@ $(document).ready(function() {
         window.open('Login.html', '_self');
         return false;
     });
+    
+    // add activity button /////////////////////////////////////////////////////
+    $('#btn_add_act').click(function() {
+        $('#mod_act_header').html("Add Activity");
+        $('#mod_sel_act_name').val("0").selectpicker('refresh');
+        $('#mod_sel_act_fac').val("");
+        $('#mod_sel_act_descrip').val("").trigger('autosize.resize');
+        $('#mod_act_fis_yr').val("");
+        $('#mod_act_role').val("").trigger('autosize.resize');
+        
+        hideModButtons();
+        $('.mod_add_btn_class').show();
+    });
+    
+    // mod activity change event ///////////////////////////////////////////////
+    $('#mod_sel_act_name').change(function() {
+        var act_id = $(this).val();
+        if (act_id === "0") {
+            $('#mod_sel_act_fac').val("");
+            $('#mod_sel_act_descrip').val("").trigger('autosize.resize');
+        }
+        else {
+            var result = new Array();
+            result = db_getActFactInfo(act_id);
+            $('#mod_sel_act_fac').val(result[0]['FacName']);
+            $('#mod_sel_act_descrip').val(result[0]['ActDescription']).trigger('autosize.resize');
+        }
+        
+        return false;
+    });
+    
+    // table category edit click event /////////////////////////////////////////
+    $('table').on('click', 'td', function() {   
+        var cell = m_table.cell( this ).data();
+        if (cell.indexOf("<i class='fa fa-edit'></i>") <= 0) {
+            return false;
+        }
+        else {
+            $('#mod_add_act').modal('show');
+            hideModButtons();
+            $('.mod_edit_btn_class').show();
+            
+            row_idx = m_table.cell( this ).index().row;
+            var row_data = m_table.row(row_idx).data();
+            var activities_id = cell.replace("<a href=# id='activities_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
+            var fac_name = row_data[1];
+            var act_descrip = row_data[2];
+            var fis_yr = row_data[3];
+            var act_role = row_data[4];
+            setTimeout(function() {                 
+                $('#mod_act_header').html("Edit Activity");
+                $('#mod_sel_act_name').val(activities_id).selectpicker('refresh');
+                $('#mod_sel_act_fac').val(fac_name);
+                $('#mod_sel_act_descrip').val(act_descrip).trigger('autosize.resize');
+                $('#mod_act_fis_yr').val(fis_yr);
+                $('#mod_act_role').val(act_role).trigger('autosize.resize');
+            }, 200);
+        }
+
+        return false;
+    });
+    
+    // mod add button click ////////////////////////////////////////////////////
+    $('#mod_act_btn_add').click(function() {
+        var act_id = $('#mod_sel_act_name').val();
+        var act_name = $("#mod_sel_act_name option:selected").text();
+        var fac_name = $('#mod_sel_act_fac').val();
+        var act_descrip = $('#mod_sel_act_descrip').val();
+        var fiscal_yr = $('#mod_act_fis_yr').val();
+        var act_role = $('#mod_act_role').val();
+        
+        m_table.row.add( [act_name, fac_name, act_descrip, fiscal_yr, act_role, "<a href=# id='activities_id_" + act_id + "'><i class='fa fa-edit'></i></a>"] ).draw();
+    });
+    
+    // mod save button click ///////////////////////////////////////////////////
+    $('#mod_act_btn_save').click(function() {
+        var act_id = $('#mod_sel_act_name').val();
+        var act_name = $("#mod_sel_act_name option:selected").text();
+        var fac_name = $('#mod_sel_act_fac').val();
+        var act_descrip = $('#mod_sel_act_descrip').val();
+        var fiscal_yr = $('#mod_act_fis_yr').val();
+        var act_role = $('#mod_act_role').val();
+        
+        m_table.row(row_idx).data( [act_name, fac_name, act_descrip, fiscal_yr, act_role, "<a href=# id='activities_id_" + act_id + "'><i class='fa fa-edit'></i></a>"] ).draw();
+    });
+    
+    // mod delete button click /////////////////////////////////////////////////
+    $('#mod_act_btn_delete').click(function() {
+        m_table.row(row_idx).remove().draw();
+    });
+    
+    // submit button click /////////////////////////////////////////////////////
+    $('#btn_submit').click(function() {
+        
+    });
+    
+    // cancel button click /////////////////////////////////////////////////////
+    $('#btn_cancel').click(function() {
+        window.open('studentHome.html', '_self');
+        return false;
+    });
+    
+    // auto size
+    $('#mod_sel_act_descrip').autosize();
+    $('#mod_act_role').autosize();
+    
+    // jquery datatables initialize ////////////////////////////////////////////
+    m_table = $('#tbl_req_list').DataTable({ paging: false, bInfo: false, searching: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -214,7 +326,45 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+function hideModButtons() {
+    $('.mod_add_btn_class').hide();
+    $('.mod_edit_btn_class').hide();
+}
+
+////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ss_stu_sat_Name');
     $('#login_user').html(login_name);
+    
+    var stu_id = sessionStorage.getItem('ss_stu_sat_StudentID');
+    // testing
+    stu_id = "1044388";
+    var result = new Array();
+    result = tardis_getStudentInfo(stu_id);
+    
+    $('#cur_date').val(getToday());
+    $('#stu_id').val(stu_id);
+    $('#stu_name').val(login_name);
+    $('#stu_email').val(sessionStorage.getItem('ss_stu_sat_Email'));
+    $('#stu_phone').val(result[0]['Phone']);
+    $('#stu_address').val(result[0]['Address']);
+    $('#stu_city').val(result[0]['City']);
+    $('#stu_state').val(result[0]['State']);
+    $('#stu_zip').val(result[0]['Zip']);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function setStuActList() {
+    var stu_id = sessionStorage.getItem('ss_stu_sat_StudentID');
+    var result = new Array();
+    result = db_getStuActList(stu_id); 
+    
+    $('#mod_sel_act_name').empty();
+    var html = "<option value='0'>Select...</option>";
+    for (var i = 0; i < result.length; i++) {
+        html += "<option value='" + result[i]['ActivitiesID'] + "'>" + result[i]['ActName'] + "</option>";
+    }
+    
+    $('#mod_sel_act_name').append(html);
+    $('#mod_sel_act_name').selectpicker('refresh');
 }

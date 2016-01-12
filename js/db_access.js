@@ -219,6 +219,34 @@ function db_getActStudentList() {
     return result;
 }
 
+function db_getStuActList(StuID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getStuActList.php",
+        data:{StuID:StuID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getActFactInfo(ActivitiesID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getActFactInfo.php",
+        data:{ActivitiesID:ActivitiesID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertAdmin(AdminName, AdminEmail) {
     var ResultID = "";
