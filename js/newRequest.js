@@ -1,3 +1,4 @@
+var login_name = "";
 var m_table;
 var row_idx;
 var student_id;
@@ -362,7 +363,7 @@ function hideModButtons() {
 
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_stu_sat_Name');
+    login_name = sessionStorage.getItem('ss_stu_sat_Name');
     $('#login_user').html(login_name);
     
     var stu_id = sessionStorage.getItem('ss_stu_sat_StudentID');
@@ -412,6 +413,7 @@ function addStuRequest() {
         var act_id = cur_row[5].replace("<a href=# id='activities_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
         var fis_yr = textReplaceApostrophe($.trim(cur_row[3]));
         var act_role = textReplaceApostrophe($.trim(cur_row[4]));
-        db_insertStuRequest(1, student_id, act_id, fis_yr, act_role);
+        var stu_request_id = db_insertStuRequest(1, student_id, act_id, fis_yr, act_role);
+        db_insertTransaction(stu_request_id, 0, login_name, "Activities Request Submitted");
     });
 }

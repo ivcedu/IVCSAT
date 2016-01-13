@@ -1,14 +1,9 @@
-var login_name = "";
-var m_table;
-var student_id = "";
-
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
-        adminSetting();
         getLoginInfo();
-        getStudentList();
+        setStuRequestInfo();
     }
     else {
         window.open('Login.html', '_self');
@@ -139,54 +134,18 @@ $(document).ready(function() {
         return false;
     });
     
-    // add category button /////////////////////////////////////////////////////
-    $('#btn_student_add').click(function() {
-        student_id = "";
-        $('#mod_student_header').html("New Student");
-        $('#mod_student_id').val("");
-        $('#mod_student_mame').val("");
-        $('#mod_student_email').val("");
-    });
-    
-    // mod add category save button ////////////////////////////////////////////
-    $('#mod_student_btn_save').click(function() {
-        var stu_id = $.trim($('#mod_student_id').val());
-        var stu_name = textReplaceApostrophe($.trim($('#mod_student_mame').val()));
-        var stu_email = $.trim($('#mod_student_email').val());
-        
-        if (stu_id === "" || stu_name === "" || stu_email === "") {
-            swal({title: "Error", text: "Please enter student ID, name and email", type: "error"});
-            return false;
-        }
-        
-        if (student_id === "") {
-            var new_student_id = db_insertStudent(stu_id, stu_name, stu_email);
-            db_insertTransaction(0, 3, login_name, "Added student ID: " + new_student_id);
-        }
-        else {
-            db_updateStudent(student_id, stu_id, stu_name, stu_email);
-            db_insertTransaction(0, 3, login_name, "Update student ID: " + student_id);
-        }
-        
-        $('#mod_add_student').modal('hide');
-        getStudentList();
+    // print pdf button click //////////////////////////////////////////////////
+    $('#btn_prt_pdf').click(function() {
+        window.open('studentHome.html', '_self');
         return false;
     });
     
-    // table category edit click event /////////////////////////////////////////
-    $('table').on('click', 'a[id^="student_id_"]', function() {
-        student_id = $(this).attr('id').replace("student_id_", "");
-        var result = db_getStudentByID(student_id);
-        $('#mod_student_header').html("Edit Student");
-        $('#mod_student_id').val(result[0]['StuID']);
-        $('#mod_student_mame').val(result[0]['StuName']);
-        $('#mod_student_email').val(result[0]['StuEmail']);
-        $('#mod_add_student').modal('show');
+    // cancel button click /////////////////////////////////////////////////////
+    $('#btn_cancel').click(function() {
+        window.open('studentHome.html', '_self');
         return false;
     });
     
-    // jquery datatables initialize ////////////////////////////////////////////
-    m_table = $('#tbl_student_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -269,29 +228,27 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-function adminSetting() {
-    var result = new Array();
-    result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
-    
-    if (result.length === 0) {
-        $('#nav_admin').hide();
-        $('#nav_faculty').hide();
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function getStudentList() {
+function setStuRequestInfo() {
+    var stu_request_id = sessionStorage.getItem('ss_sf_StuRequestID');
     var result = new Array();
-    result = db_getStudentList();
+    result = db_getStuReqInfo(stu_request_id);
     
-    m_table.clear();
-    m_table.rows.add(result).draw();
-    
-    $('.animate-panel').animatePanel();
+    $('#sub_date').html(result[0]['DTStamp']);
+    $('#status').html(result[0]['Status']);
+    $('#stu_id').html(result[0]['StuID']);
+    $('#stu_name').html(result[0]['StuName']);
+    $('#faculty').html(result[0]['facName']);
+    $('#act_name').html(result[0]['ActName']);
+    $('#act_descrip').html(result[0]['ActDescription']);
+    $('#act_type').html(result[0]['ActTypeName']);
+    $('#act_type_descrip').html(result[0]['ActTypeDescrip']);
+    $('#category').html(result[0]['CatName']);
+    $('#fis_yrs').html(result[0]['FiscalYrs']);
+    $('#act_role').html(result[0]['ActRole']);
 }

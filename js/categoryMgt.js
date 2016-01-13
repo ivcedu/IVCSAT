@@ -1,3 +1,4 @@
+var login_name = "";
 var m_table;
 var cat_id = "";
 
@@ -154,10 +155,12 @@ $(document).ready(function() {
         }
         
         if (cat_id === "") {
-            db_insertCategory(cat_name);
+            var new_cat_id = db_insertCategory(cat_name);
+            db_insertTransaction(0, 4, login_name, "Added category ID: " + new_cat_id);
         }
         else {
             db_updateCategory(cat_id, cat_name);
+            db_insertTransaction(0, 4, login_name, "Update category ID: " + cat_id);
         }
         
         $('#mod_add_category').modal('hide');
@@ -278,7 +281,7 @@ function adminSetting() {
 
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 

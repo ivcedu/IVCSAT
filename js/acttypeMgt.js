@@ -1,3 +1,4 @@
+var login_name = "";
 var m_table;
 var acttype_id = "";
 
@@ -157,10 +158,12 @@ $(document).ready(function() {
         }
         
         if (acttype_id === "") {
-            db_insertActType(acttype_name, acttype_descrip);
+            var new_acttype_id = db_insertActType(acttype_name, acttype_descrip);
+            db_insertTransaction(0, 5, login_name, "Added activity type ID: " + new_acttype_id);
         }
         else {
             db_updateActType(acttype_id, acttype_name, acttype_descrip);
+            db_insertTransaction(0, 5, login_name, "Update activity type ID: " + acttype_id);
         }
         
         $('#mod_add_acttype').modal('hide');
@@ -282,7 +285,7 @@ function adminSetting() {
 
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 

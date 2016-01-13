@@ -1,3 +1,6 @@
+var login_name = "";
+var stu_request_id = "";
+
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
@@ -134,6 +137,39 @@ $(document).ready(function() {
         window.open('Login.html', '_self');
         return false;
     });
+    
+    // approve button click ////////////////////////////////////////////////////
+    $('#btn_approve').click(function() {
+        var apr_comments = textReplaceApostrophe($.trim($('#apr_comments').val()));
+        if (apr_comments !== "") {
+            db_insertStuRequestAprComments(stu_request_id, apr_comments);
+        }
+        db_updateStuRequestStatus(stu_request_id, 2);
+        db_insertStuReqLog(stu_request_id, 2, login_name);
+        window.open('staffHome.html', '_self');
+        return false;
+    });
+    
+    // deny button click ///////////////////////////////////////////////////////
+    $('#btn_deny').click(function() {
+        var apr_comments = textReplaceApostrophe($.trim($('#apr_comments').val()));
+        if (apr_comments !== "") {
+            db_insertStuRequestAprComments(stu_request_id, apr_comments);
+        }
+        db_updateStuRequestStatus(stu_request_id, 3);
+        db_insertStuReqLog(stu_request_id, 3, login_name);
+        window.open('staffHome.html', '_self');
+        return false;
+    });
+    
+    // cancel button click /////////////////////////////////////////////////////
+    $('#btn_cancel').click(function() {
+        window.open('staffHome.html', '_self');
+        return false;
+    });
+    
+    // auto size
+    $('#apr_comments').autosize();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -217,7 +253,7 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 
@@ -233,11 +269,12 @@ function adminSetting() {
 }
 
 function setStuRequestInfo() {
-    var stu_request_id = sessionStorage.getItem('ss_sf_StuRequestID');
+    stu_request_id = sessionStorage.getItem('ss_sf_StuRequestID');
     var result = new Array();
     result = db_getStuReqInfo(stu_request_id);
     
     $('#sub_date').html(result[0]['DTStamp']);
+    $('#status').html(result[0]['Status']);
     $('#stu_id').html(result[0]['StuID']);
     $('#stu_name').html(result[0]['StuName']);
     $('#act_name').html(result[0]['ActName']);

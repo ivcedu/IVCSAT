@@ -416,6 +416,48 @@ function db_insertStuRequest(StatusID, StudentID, ActivitiesID, FiscalYrs, ActRo
     return ResultID;
 }
 
+function db_insertStuRequestAprComments(StuRequestID, ApprComments) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertStuRequestAprComments.php",
+        data:{StuRequestID:StuRequestID, ApprComments:ApprComments},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertStuReqLog(StuRequestID, StatusID, LoginName) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertStuReqLog.php",
+        data:{StuRequestID:StuRequestID, StatusID:StatusID, LoginName:LoginName},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertTransaction(StuRequestID, SysConfigID, LoginName, Note) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertTransaction.php",
+        data:{StuRequestID:StuRequestID, SysConfigID:SysConfigID, LoginName:LoginName, Note:Note},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
 // update DB ///////////////////////////////////////////////////////////////////
 function db_updateAdmin(AdminID, AdminName, AdminEmail) {
     var Result = false;
@@ -507,6 +549,20 @@ function db_updateActivities(ActivitiesID, CategoryID, ActTypeID, FacultyID, Act
         type:"POST",
         url:"php/db_updateActivities.php",
         data:{ActivitiesID:ActivitiesID, CategoryID:CategoryID, ActTypeID:ActTypeID, FacultyID:FacultyID, ActName:ActName, ActDescription:ActDescription},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_updateStuRequestStatus(StuRequestID, StatusID) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateStuRequestStatus.php",
+        data:{StuRequestID:StuRequestID, StatusID:StatusID},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);

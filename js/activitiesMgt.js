@@ -1,3 +1,4 @@
+var login_name = "";
 var m_table;
 var activities_id = "";
 
@@ -168,10 +169,12 @@ $(document).ready(function() {
         }
         
         if (activities_id === "") {
-            db_insertActivities(category_id, acttype_id, faculty_id, act_name, act_description);
+            var new_activities_id = db_insertActivities(category_id, acttype_id, faculty_id, act_name, act_description);
+            db_insertTransaction(0, 6, login_name, "Added activities ID: " + new_activities_id);
         }
         else {
             db_updateActivities(activities_id, category_id, acttype_id, faculty_id, act_name, act_description);
+            db_insertTransaction(0, 6, login_name, "Update activities ID: " + activities_id);
         }
         
         $('#mod_add_activity').modal('hide');
@@ -302,7 +305,7 @@ function adminSetting() {
 
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 

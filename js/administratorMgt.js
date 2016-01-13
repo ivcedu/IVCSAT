@@ -1,3 +1,4 @@
+var login_name = "";
 var m_table;
 var admin_id = "";
 
@@ -156,10 +157,12 @@ $(document).ready(function() {
         }
         
         if (admin_id === "") {
-            db_insertAdmin(textReplaceApostrophe(admin_name), admin_email);
+            var new_admin_id = db_insertAdmin(textReplaceApostrophe(admin_name), admin_email);
+            db_insertTransaction(0, 1, login_name, "Added administrator ID: " + new_admin_id);
         }
         else {
             db_updateAdmin(admin_id, textReplaceApostrophe(admin_name), admin_email);
+            db_insertTransaction(0, 1, login_name, "Updated administrator ID: " + admin_id);
         }
         
         $('#mod_add_admin').modal('hide');
@@ -274,7 +277,7 @@ function adminSetting() {
 
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 

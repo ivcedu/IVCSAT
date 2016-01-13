@@ -136,6 +136,20 @@ $(document).ready(function() {
         return false;
     });
     
+    // table category edit click event /////////////////////////////////////////
+    $('table').on('click', 'td', function() {   
+        var cell = m_table.cell( this ).data();
+        if (cell.indexOf("<i class='fa fa-folder-open-o'></i>") <= 0) {
+            return false;
+        }
+        else {
+            var stu_request_id = cell.replace("<a href=# id='stu_request_id_", "").replace("'><i class='fa fa-folder-open-o'></i></a>", "");
+            sessionStorage.setItem('ss_sf_StuRequestID', stu_request_id);
+            window.open('stuRequestPrint.html', '_self');
+            return false;
+        }
+    });
+    
     // jquery datatables initialize ////////////////////////////////////////////
     m_table = $('#tbl_stu_req_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

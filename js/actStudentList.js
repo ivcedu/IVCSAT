@@ -1,3 +1,4 @@
+var login_name = "";
 var m_table;
 var act_stu_list_id = "";
 
@@ -158,7 +159,8 @@ $(document).ready(function() {
             return false;
         }
 
-        db_insertActStuList(activities_id, student_id);
+        var new_act_stu_list_id = db_insertActStuList(activities_id, student_id);
+        db_insertTransaction(0, 7, login_name, "Added activities student ID: " + new_act_stu_list_id);
         
         $('#mod_add_act_student').modal('hide');
         getActStudentList();
@@ -178,6 +180,7 @@ $(document).ready(function() {
                closeOnConfirm: false }, 
                function() {
                    db_deleteActStuList(act_stu_list_id);
+                   db_insertTransaction(0, 7, login_name, "Deleted activities student ID: " + act_stu_list_id);
                    getActStudentList();
                    swal("Deleted!", "Selected student has been deleted from activities.", "success");
                }
@@ -285,7 +288,7 @@ function adminSetting() {
 
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 

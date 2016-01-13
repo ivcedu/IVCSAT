@@ -54,28 +54,10 @@
             <div id="navigation">
                 <ul class="nav" id="side-menu">
                     <li class="active">
-                        <a href="staffHome.html"><span class="nav-label">Home</span></a>
-                    </li>
-                    <li id="nav_admin">
-                        <a href="administratorMgt.html"><span class="nav-label">Administrator</span></a>
-                    </li>
-                    <li id="nav_faculty">
-                        <a href="facultyMgt.html"><span class="nav-label">Faculty</span></a>
+                        <a href="studentHome.html"><span class="nav-label">Home</span></a>
                     </li>
                     <li>
-                        <a href="studentMgt.html"><span class="nav-label">Student</span></a>
-                    </li>
-                    <li>
-                        <a href="categoryMgt.html"><span class="nav-label">Category</span></a>
-                    </li>
-                    <li>
-                        <a href="acttypeMgt.html"><span class="nav-label">Activities Type</span></a>
-                    </li>
-                    <li>
-                        <a href="activitiesMgt.html"><span class="nav-label">Activities</span></a>
-                    </li>
-                    <li>
-                        <a href="actStudentList.html"><span class="nav-label">Activities Student List</span></a>
+                        <a href="newRequest.html"><span class="nav-label">New Request</span></a>
                     </li>
                 </ul>
             </div>
@@ -109,6 +91,11 @@
                             <div class="row">
                                 <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1"><span class="font-bold">Name:</span></div>
                                 <div class="col-xs-12 col-sm-10 col-md-10 col-lg-5" id="stu_name"></div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1"><span class="font-bold">Faculty:</span></div>
+                                <div class="col-xs-12 col-sm-10 col-md-10 col-lg-5" id="faculty"></div>
                             </div>
                             <br/>
                             <div class="row">
@@ -152,16 +139,8 @@
                     <div class="panel-footer">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1"><span class="font-bold">Comments:</span></div>
-                                <div class="col-xs-12 col-sm-10 col-md-10 col-lg-5"><textarea class="col-md-12 form-control" style="height: 55px; resize: vertical;" id="apr_comments"></textarea></div>
-                            </div>
-                            <br>
-                            <div class="row">
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <button type="button" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-primary" id="btn_approve"><i class="fa fa-thumbs-up"></i> Approve</button>
-                                </div>
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <button type="button" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-danger" id="btn_deny"><i class="fa fa-thumbs-down"></i> Deny</button>
+                                    <button type="button" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-primary" id="btn_prt_pdf"><i class="fa fa-file-pdf-o"></i> Print PDF</button>
                                 </div>
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                                     <button type="button" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-default" id="btn_cancel"><i class="fa fa-times"></i> Cancel</button>
@@ -192,9 +171,8 @@
         <script src="../homer-1.8/vendor/datatables_plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
         <!-- include javascript -->
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
-        <script src="../include/jquery-autosize/jquery.autosize.1.18.1.min.js"></script>
         <!-- application javascript -->
-        <script src="js/stuRequestView.js"></script>
+        <script src="js/stuRequestPrint.js"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
     </body>

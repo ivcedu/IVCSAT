@@ -1,3 +1,4 @@
+var login_name = "";
 var m_table;
 var faculty_id = "";
 
@@ -165,10 +166,12 @@ $(document).ready(function() {
         }
         
         if (faculty_id === "") {
-            db_insertFaculty(fac_name, fac_email, fac_title, fac_phone, fac_depart, fac_division);
+            var new_faculty_id = db_insertFaculty(fac_name, fac_email, fac_title, fac_phone, fac_depart, fac_division);
+            db_insertTransaction(0, 2, login_name, "Added faculty ID: " + new_faculty_id);
         }
         else {
             db_updateFaculty(faculty_id, fac_name, fac_email, fac_title, fac_phone, fac_depart, fac_division);
+            db_insertTransaction(0, 2, login_name, "Update faculty ID: " + faculty_id);
         }
         
         $('#mod_add_faculty').modal('hide');
@@ -287,7 +290,7 @@ function adminSetting() {
 
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 
