@@ -1,11 +1,10 @@
-var m_table;
-
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
+        adminSetting();
         getLoginInfo();
-        getStuReqList();
+        setStuRequestInfo();
     }
     else {
         window.open('Login.html', '_self');
@@ -135,9 +134,6 @@ $(document).ready(function() {
         window.open('Login.html', '_self');
         return false;
     });
-    
-    // jquery datatables initialize ////////////////////////////////////////////
-    m_table = $('#tbl_stu_req_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -221,18 +217,34 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_stu_sat_Name');
+    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function getStuReqList() {
-    var stu_id = sessionStorage.getItem('ss_stu_sat_StudentID');
+function adminSetting() {
     var result = new Array();
-    result = db_getStuReqByStuID(stu_id);
+    result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
     
-    m_table.clear();
-    m_table.rows.add(result).draw();
+    if (result.length === 0) {
+        $('#nav_admin').hide();
+        $('#nav_faculty').hide();
+    }
+}
+
+function setStuRequestInfo() {
+    var stu_request_id = sessionStorage.getItem('ss_sf_StuRequestID');
+    var result = new Array();
+    result = db_getStuReqInfo(stu_request_id);
     
-    $('.animate-panel').animatePanel();
+    $('#sub_date').html(result[0]['DTStamp']);
+    $('#stu_id').html(result[0]['StuID']);
+    $('#stu_name').html(result[0]['StuName']);
+    $('#act_name').html(result[0]['ActName']);
+    $('#act_descrip').html(result[0]['ActDescription']);
+    $('#act_type').html(result[0]['ActTypeName']);
+    $('#act_type_descrip').html(result[0]['ActTypeDescrip']);
+    $('#category').html(result[0]['CatName']);
+    $('#fis_yrs').html(result[0]['FiscalYrs']);
+    $('#act_role').html(result[0]['ActRole']);
 }

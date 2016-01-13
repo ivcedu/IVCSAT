@@ -148,8 +148,8 @@ $(document).ready(function() {
     
     // mod add category save button ////////////////////////////////////////////
     $('#mod_acttype_btn_save').click(function() {
-        var acttype_name = $.trim($('#mod_acttype_mame').val());
-        var acttype_descrip = $.trim($('#mod_acttype_descrip').val());
+        var acttype_name = textReplaceApostrophe($.trim($('#mod_acttype_mame').val()));
+        var acttype_descrip = textReplaceApostrophe($.trim($('#mod_acttype_descrip').val()));
         
         if (acttype_name === "") {
             swal({title: "Error", text: "Please enter activity type", type: "error"});
@@ -270,12 +270,6 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
-    $('#login_user').html(login_name);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 function adminSetting() {
     var result = new Array();
     result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
@@ -284,6 +278,12 @@ function adminSetting() {
         $('#nav_admin').hide();
         $('#nav_faculty').hide();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getLoginInfo() {
+    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    $('#login_user').html(login_name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

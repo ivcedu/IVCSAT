@@ -150,7 +150,7 @@ $(document).ready(function() {
     // mod add category save button ////////////////////////////////////////////
     $('#mod_student_btn_save').click(function() {
         var stu_id = $.trim($('#mod_student_id').val());
-        var stu_name = $.trim($('#mod_student_mame').val());
+        var stu_name = textReplaceApostrophe($.trim($('#mod_student_mame').val()));
         var stu_email = $.trim($('#mod_student_email').val());
         
         if (stu_id === "" || stu_name === "" || stu_email === "") {
@@ -266,12 +266,6 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
-    $('#login_user').html(login_name);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 function adminSetting() {
     var result = new Array();
     result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
@@ -280,6 +274,12 @@ function adminSetting() {
         $('#nav_admin').hide();
         $('#nav_faculty').hide();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getLoginInfo() {
+    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    $('#login_user').html(login_name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -5,6 +5,7 @@ var activities_id = "";
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
+        adminSetting();
         getLoginInfo();
         getCategoryList();
         getActTypeList();
@@ -159,8 +160,8 @@ $(document).ready(function() {
         var category_id = $('#mod_sel_category').val();
         var acttype_id = $('#mod_sel_acttype').val();
         var faculty_id = $('#mod_sel_faculty').val();
-        var act_name = $.trim($('#mod_activity_mame').val());
-        var act_description = $.trim($('#mod_activity_descrip').val());
+        var act_name = textReplaceApostrophe($.trim($('#mod_activity_mame').val()));
+        var act_description = textReplaceApostrophe($.trim($('#mod_activity_descrip').val()));
         if (category_id === "0" || acttype_id === "0" || faculty_id === "0" || act_name === "") {
             swal({title: "Error", text: "Please select category, activity type and faculty and enter activities name", type: "error"});
             return false;
@@ -288,6 +289,17 @@ $.fn['animatePanel'] = function() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+function adminSetting() {
+    var result = new Array();
+    result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
+    
+    if (result.length === 0) {
+        $('#nav_admin').hide();
+        $('#nav_faculty').hide();
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ss_sf_sat_Name');

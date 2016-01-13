@@ -1,5 +1,6 @@
 var m_table;
 var row_idx;
+var student_id;
 
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
@@ -229,11 +230,39 @@ $(document).ready(function() {
     
     // submit button click /////////////////////////////////////////////////////
     $('#btn_submit').click(function() {
-        
+        var stu_email2 = $.trim($('#stu_email2').val());
+        if (stu_email2 !== "" && !isValidEmailAddress(stu_email2)) {
+            swal({title: "Alternate Email", text: "Please enter valid email address for Email 2 section", type: "warning"});
+            return false;
+        }
+        else {
+            db_updateStudentEmail2(student_id, stu_email2);
+        }
+
+        if (m_table.data().length === 0) {
+            swal({title: "No Activities", text: "Please add activities to submit", type: "warning"});
+            return false;
+        }
+        else {
+            addStuRequest();
+            swal({ title: "Activities Submitted", 
+               text: "Your request has been submitted successfully",
+               type: "success", 
+               showCancelButton: false, 
+               confirmButtonText: "OK",
+               closeOnConfirm: true },
+               function() {
+                    m_table.clear();
+                    window.open('studentHome.html', '_self');
+                    return false;
+               }
+            );
+        }
     });
     
     // cancel button click /////////////////////////////////////////////////////
     $('#btn_cancel').click(function() {
+        m_table.clear();
         window.open('studentHome.html', '_self');
         return false;
     });
@@ -337,20 +366,27 @@ function getLoginInfo() {
     $('#login_user').html(login_name);
     
     var stu_id = sessionStorage.getItem('ss_stu_sat_StudentID');
-    // testing
-    stu_id = "1044388";
-    var result = new Array();
-    result = tardis_getStudentInfo(stu_id);
-    
     $('#cur_date').val(getToday());
     $('#stu_id').val(stu_id);
     $('#stu_name').val(login_name);
     $('#stu_email').val(sessionStorage.getItem('ss_stu_sat_Email'));
-    $('#stu_phone').val(result[0]['Phone']);
-    $('#stu_address').val(result[0]['Address']);
-    $('#stu_city').val(result[0]['City']);
-    $('#stu_state').val(result[0]['State']);
-    $('#stu_zip').val(result[0]['Zip']);
+    
+    var result = new Array();
+    result = tardis_getStudentInfo(stu_id);
+    if (result.length === 1) {
+        $('#stu_phone').val(result[0]['Phone']);
+        $('#stu_address').val(result[0]['Address']);
+        $('#stu_city').val(result[0]['City']);
+        $('#stu_state').val(result[0]['State']);
+        $('#stu_zip').val(result[0]['Zip']);
+    }
+    
+    var result2 = new Array();
+    result2 = db_getStudentByStuID(stu_id);
+    if (result2.length === 1) {
+        student_id = result2[0]['StudentID'];
+        $('#stu_email2').val(result2[0]['StuEmail2']);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -367,4 +403,15 @@ function setStuActList() {
     
     $('#mod_sel_act_name').append(html);
     $('#mod_sel_act_name').selectpicker('refresh');
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function addStuRequest() {
+    m_table.rows().data().each(function(value) {
+        var cur_row = value;
+        var act_id = cur_row[5].replace("<a href=# id='activities_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
+        var fis_yr = textReplaceApostrophe($.trim(cur_row[3]));
+        var act_role = textReplaceApostrophe($.trim(cur_row[4]));
+        db_insertStuRequest(1, student_id, act_id, fis_yr, act_role);
+    });
 }

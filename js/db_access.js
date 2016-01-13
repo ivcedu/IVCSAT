@@ -125,6 +125,20 @@ function db_getStudentByID(StudentID) {
     return result;
 }
 
+function db_getStudentByStuID(StuID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getStudentByStuID.php",
+        data:{StuID:StuID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 function db_getCategoryList() {   
     var result = new Array();
     $.ajax({
@@ -247,6 +261,48 @@ function db_getActFactInfo(ActivitiesID) {
     return result;
 }
 
+function db_getStuReqByStuID(StuID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getStuReqByStuID.php",
+        data:{StuID:StuID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getStuReqByFacultyEmail(FacEmail) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getStuReqByFacultyEmail.php",
+        data:{FacEmail:FacEmail},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getStuReqInfo(StuRequestID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getStuReqInfo.php",
+        data:{StuRequestID:StuRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertAdmin(AdminName, AdminEmail) {
     var ResultID = "";
@@ -346,6 +402,20 @@ function db_insertActStuList(ActivitiesID, StudentID) {
     return ResultID;
 }
 
+function db_insertStuRequest(StatusID, StudentID, ActivitiesID, FiscalYrs, ActRole) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertStuRequest.php",
+        data:{StatusID:StatusID, StudentID:StudentID, ActivitiesID:ActivitiesID, FiscalYrs:FiscalYrs, ActRole:ActRole},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
 // update DB ///////////////////////////////////////////////////////////////////
 function db_updateAdmin(AdminID, AdminName, AdminEmail) {
     var Result = false;
@@ -381,6 +451,20 @@ function db_updateStudent(StudentID, StuID, StuName, StuEmail) {
         type:"POST",
         url:"php/db_updateStudent.php",
         data:{StudentID:StudentID, StuID:StuID, StuName:StuName, StuEmail:StuEmail},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_updateStudentEmail2($StudentID, StuEmail2) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateStudentEmail2.php",
+        data:{$StudentID:$StudentID, StuEmail2:StuEmail2},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);

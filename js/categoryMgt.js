@@ -147,7 +147,7 @@ $(document).ready(function() {
     
     // mod add category save button ////////////////////////////////////////////
     $('#mod_cat_btn_save').click(function() {
-        var cat_name = $.trim($('#mod_category_mame').val());
+        var cat_name = textReplaceApostrophe($.trim($('#mod_category_mame').val()));
         if (cat_name === "") {
             swal({title: "Error", text: "Please enter category name", type: "error"});
             return false;
@@ -266,12 +266,6 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
-    $('#login_user').html(login_name);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 function adminSetting() {
     var result = new Array();
     result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
@@ -280,6 +274,12 @@ function adminSetting() {
         $('#nav_admin').hide();
         $('#nav_faculty').hide();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getLoginInfo() {
+    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    $('#login_user').html(login_name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

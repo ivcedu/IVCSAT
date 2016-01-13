@@ -1,9 +1,12 @@
+var m_table;
+
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
         adminSetting();
         getLoginInfo();
+        getFacultyStuReqList();
     }
     else {
         window.open('Login.html', '_self');
@@ -133,6 +136,23 @@ $(document).ready(function() {
         window.open('Login.html', '_self');
         return false;
     });
+    
+    // table category edit click event /////////////////////////////////////////
+    $('table').on('click', 'td', function() {   
+        var cell = m_table.cell( this ).data();
+        if (cell.indexOf("<i class='fa fa-legal'></i>") <= 0) {
+            return false;
+        }
+        else {
+            var stu_request_id = cell.replace("<a href=# id='stu_request_id_", "").replace("'><i class='fa fa-legal'></i></a>", "");
+            sessionStorage.setItem('ss_sf_StuRequestID', stu_request_id);
+            window.open('stuRequestView.html', '_self');
+            return false;
+        }
+    });
+    
+    // jquery datatables initialize ////////////////////////////////////////////
+    m_table = $('#tbl_fac_req_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -229,4 +249,16 @@ function adminSetting() {
         $('#nav_admin').hide();
         $('#nav_faculty').hide();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getFacultyStuReqList() {
+    var fac_email = sessionStorage.getItem('ss_sf_sat_Email');
+    var result = new Array();
+    result = db_getStuReqByFacultyEmail(fac_email);
+    
+    m_table.clear();
+    m_table.rows.add(result).draw();
+    
+    $('.animate-panel').animatePanel();
 }

@@ -148,7 +148,7 @@ $(document).ready(function() {
     
     // mod add category save button ////////////////////////////////////////////
     $('#mod_admin_btn_save').click(function() {
-        var admin_name = $.trim($('#mod_admin_mame').val());
+        var admin_name = textReplaceApostrophe($.trim($('#mod_admin_mame').val()));
         var admin_email = $.trim($('#mod_admin_email').val());
         if (admin_name === "" || admin_email === "") {
             swal({title: "Error", text: "Please enter adminstrator name and email", type: "error"});
@@ -156,10 +156,10 @@ $(document).ready(function() {
         }
         
         if (admin_id === "") {
-            db_insertAdmin(admin_name, admin_email);
+            db_insertAdmin(textReplaceApostrophe(admin_name), admin_email);
         }
         else {
-            db_updateAdmin(admin_id, admin_name, admin_email);
+            db_updateAdmin(admin_id, textReplaceApostrophe(admin_name), admin_email);
         }
         
         $('#mod_add_admin').modal('hide');
@@ -262,12 +262,6 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
-    $('#login_user').html(login_name);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 function adminSetting() {
     var result = new Array();
     result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
@@ -276,6 +270,12 @@ function adminSetting() {
         $('#nav_admin').hide();
         $('#nav_faculty').hide();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getLoginInfo() {
+    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    $('#login_user').html(login_name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

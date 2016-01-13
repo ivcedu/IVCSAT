@@ -5,6 +5,7 @@ var act_stu_list_id = "";
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
+        adminSetting();
         getLoginInfo();
         getActivitiesList();
         getStudentList();
@@ -272,6 +273,17 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+function adminSetting() {
+    var result = new Array();
+    result = db_getAdminByEmail(sessionStorage.getItem('ss_sf_sat_Email'));
+    
+    if (result.length === 0) {
+        $('#nav_admin').hide();
+        $('#nav_faculty').hide();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
@@ -285,7 +297,8 @@ function getActivitiesList() {
     $('#mod_sel_activities').empty();
     var html = "<option value='0'>Select...</option>";
     for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['ActivitiesID'] + "'>" + result[i]['ActName'] + "</option>";
+        var activities_id = result[i]['ActivitiesID'].replace("<a href=# id='activities_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
+        html += "<option value='" + activities_id + "'>" + result[i]['ActName'] + "</option>";
     }
     
     $('#mod_sel_activities').append(html);
@@ -300,7 +313,8 @@ function getStudentList() {
     $('#mod_sel_student').empty();
     var html = "<option value='0'>Select...</option>";
     for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['StudentID'] + "'>" + result[i]['StuName'] + "</option>";
+        var student_id = result[i]['StudentID'].replace("<a href=# id='student_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
+        html += "<option value='" + student_id + "'>" + result[i]['StuName'] + "</option>";
     }
     
     $('#mod_sel_student').append(html);
