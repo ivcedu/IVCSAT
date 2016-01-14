@@ -8,6 +8,7 @@ window.onload = function() {
         adminSetting();
         getLoginInfo();
         setStuRequestInfo();
+        getTransactionHistory();
     }
     else {
         window.open('Login.html', '_self');
@@ -286,4 +287,20 @@ function setStuRequestInfo() {
     $('#category').html(result[0]['CatName']);
     $('#fis_yrs').html(result[0]['FiscalYrs']);
     $('#act_role').html(result[0]['ActRole']);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getTransactionHistory() {
+    var result = new Array();
+    result = db_getTransaction(stu_request_id);
+    
+    var str_html = "";
+    for (var i = 0; i < result.length; i++) {
+        var dt_stamp = convertDBDateTimeToString(result[i]['DTStamp']);
+        var login_name = result[i]['LoginName'];
+        var note = result[i]['Note'];
+
+        str_html += login_name + " : " + dt_stamp + "<br>" + note.replace(/\n/g, "<br>") + "<br><br>";
+    }
+    $("#trans_history").html(str_html);
 }
