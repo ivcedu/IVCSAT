@@ -1,9 +1,13 @@
+var login_name = "";
+var stu_request_id = "";
+
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         $('.splash').css('display', 'none');
         getLoginInfo();
         setStuRequestInfo();
+        getTransactionHistory();
     }
     else {
         window.open('Login.html', '_self');
@@ -229,13 +233,13 @@ $.fn['animatePanel'] = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ss_sf_sat_Name');
+    login_name = sessionStorage.getItem('ss_sf_sat_Name');
     $('#login_user').html(login_name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function setStuRequestInfo() {
-    var stu_request_id = sessionStorage.getItem('ss_sf_StuRequestID');
+    stu_request_id = sessionStorage.getItem('ss_sf_StuRequestID');
     var result = new Array();
     result = db_getStuReqInfo(stu_request_id);
     
@@ -251,4 +255,20 @@ function setStuRequestInfo() {
     $('#category').html(result[0]['CatName']);
     $('#fis_yrs').html(result[0]['FiscalYrs']);
     $('#act_role').html(result[0]['ActRole']);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getTransactionHistory() {
+    var result = new Array();
+    result = db_getTransaction(stu_request_id);
+    
+    var str_html = "";
+    for (var i = 0; i < result.length; i++) {
+        var dt_stamp = convertDBDateTimeToString(result[i]['DTStamp']);
+        var login_name = result[i]['LoginName'];
+        var note = result[i]['Note'];
+
+        str_html += login_name + " : " + dt_stamp + "<br>" + note.replace(/\n/g, "<br>") + "<br><br>";
+    }
+    $("#trans_history").html(str_html);
 }

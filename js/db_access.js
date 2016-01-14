@@ -303,6 +303,20 @@ function db_getStuReqInfo(StuRequestID) {
     return result;
 }
 
+function db_getTransaction(StuRequestID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getTransaction.php",
+        data:{StuRequestID:StuRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertAdmin(AdminName, AdminEmail) {
     var ResultID = "";

@@ -7,7 +7,7 @@
     $Note = filter_input(INPUT_POST, 'Note');
     
     $query = "INSERT INTO [IVCSAT].[dbo].[Transaction] (StuRequestID, SysConfigID, LoginName, Note) "
-                ."VALUES ('$StuRequestID', 'SysConfigID', '$LoginName', '$Note')";  
+                ."VALUES ('$StuRequestID', '$SysConfigID', '$LoginName', '$Note')";  
     
     $cmd = $dbConn->prepare($query);
     $cmd->execute();

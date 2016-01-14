@@ -146,6 +146,7 @@ $(document).ready(function() {
         }
         db_updateStuRequestStatus(stu_request_id, 2);
         db_insertStuReqLog(stu_request_id, 2, login_name);
+        db_insertTransaction(stu_request_id, 0, login_name, "Approved");
         window.open('staffHome.html', '_self');
         return false;
     });
@@ -158,6 +159,7 @@ $(document).ready(function() {
         }
         db_updateStuRequestStatus(stu_request_id, 3);
         db_insertStuReqLog(stu_request_id, 3, login_name);
+        db_insertTransaction(stu_request_id, 0, login_name, "Denied");
         window.open('staffHome.html', '_self');
         return false;
     });
