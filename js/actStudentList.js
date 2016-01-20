@@ -170,6 +170,12 @@ $(document).ready(function() {
     // table category edit click event /////////////////////////////////////////
     $('table').on('click', 'a[id^="act_stu_list_id_"]', function() {
         act_stu_list_id = $(this).attr('id').replace("act_stu_list_id_", "");
+        var result = new Array();
+        result = db_getActStuListByID(act_stu_list_id);
+        if (validateStuReqByStudentActivities(result[0]['StudentID'], result[0]['ActivitiesID'])) {
+            swal({title: "Warning", text: "Student already submitted transacript request for selected activities", type: "warning"});
+            return false;
+        }
         
         swal({ title: "Are you sure?", 
                text: "You will not be able to recover this activities student list",
@@ -333,4 +339,17 @@ function getActStudentList() {
     m_table.rows.add(result).draw();
     
     $('.animate-panel').animatePanel();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function validateStuReqByStudentActivities(student_id, activities_id) {
+    var result = new Array();
+    result = db_getStuReqByStudentActivitiesID(student_id, activities_id);
+    
+    if (result.length === 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
 }

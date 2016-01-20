@@ -233,6 +233,20 @@ function db_getActStudentList() {
     return result;
 }
 
+function db_getActStuListByID(ActStuListID) {   
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getActStuListByID.php",
+        async: false,  
+        data:{ActStuListID:ActStuListID},
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 function db_getStuActList(StuID) {
     var result = "";
     $.ajax({
@@ -295,6 +309,20 @@ function db_getStuReqInfo(StuRequestID) {
         type:"POST",
         url:"php/db_getStuReqInfo.php",
         data:{StuRequestID:StuRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getStuReqByStudentActivitiesID(StudentID, ActivitiesID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getStuReqByStudentActivitiesID.php",
+        data:{StudentID:StudentID, ActivitiesID:ActivitiesID},
         async: false,  
         success:function(data) {
             result = JSON.parse(data);

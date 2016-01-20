@@ -372,15 +372,15 @@ function getLoginInfo() {
     $('#stu_name').val(login_name);
     $('#stu_email').val(sessionStorage.getItem('ss_stu_sat_Email'));
     
-    var result = new Array();
-    result = tardis_getStudentInfo(stu_id);
-    if (result.length === 1) {
-        $('#stu_phone').val(result[0]['Phone']);
-        $('#stu_address').val(result[0]['Address']);
-        $('#stu_city').val(result[0]['City']);
-        $('#stu_state').val(result[0]['State']);
-        $('#stu_zip').val(result[0]['Zip']);
-    }
+//    var result = new Array();
+//    result = tardis_getStudentInfo(stu_id);
+//    if (result.length === 1) {
+//        $('#stu_phone').val(result[0]['Phone']);
+//        $('#stu_address').val(result[0]['Address']);
+//        $('#stu_city').val(result[0]['City']);
+//        $('#stu_state').val(result[0]['State']);
+//        $('#stu_zip').val(result[0]['Zip']);
+//    }
     
     var result2 = new Array();
     result2 = db_getStudentByStuID(stu_id);

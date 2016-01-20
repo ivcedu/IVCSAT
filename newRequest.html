@@ -75,26 +75,35 @@
                             </div>
                             <br><br>
                             <div class="row">
-                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1" style="padding-top: 7px;">ID:</div>
-                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2"><input class="form-control" type="text" readonly id="stu_id"></div>
-                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1" style="padding-top: 7px;">Date:</div>
+                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2" style="padding-top: 7px;">Date:</div>
                                 <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2"><input class="form-control" type="text" readonly id="cur_date"></div>
                             </div>
                             <br/>
                             <div class="row">
-                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1" style="padding-top: 7px;">Name:</div>
-                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2"><input class="form-control" type="text" readonly id="stu_name"></div>
-                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1" style="padding-top: 7px;">Phone:</div>
-                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2"><input class="form-control" type="text" readonly id="stu_phone"></div>
+                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2" style="padding-top: 7px;">ID:</div>
+                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2"><input class="form-control" type="text" readonly id="stu_id"></div>
                             </div>
                             <br/>
                             <div class="row">
-                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1" style="padding-top: 7px;">Email 1:</div>
+                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2" style="padding-top: 7px;">Name:</div>
+                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2"><input class="form-control" type="text" readonly id="stu_name"></div>
+                                <!--
+                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1" style="padding-top: 7px;">Phone:</div>
+                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2"><input class="form-control" type="text" readonly id="stu_phone"></div>
+                                -->
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2" style="padding-top: 7px;">IVC Email:</div>
                                 <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2"><input class="form-control" type="text" readonly id="stu_email"></div>
-                                <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1" style="padding-top: 7px;">Email 2:</div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2" style="padding-top: 7px;">Alt Email:</div>
                                 <div class="col-xs-8 col-sm-4 col-md-4 col-lg-2"><input class="form-control" type="text" id="stu_email2"></div>
                             </div>
                             <br/>
+                            <!--
                             <div class="row">
                                 <div class="col-xs-4 col-sm-2 col-md-2 col-lg-1" style="padding-top: 7px;">Address:</div>
                                 <div class="col-xs-8 col-sm-10 col-md-10 col-lg-5"><input class="form-control" type="text" readonly id="stu_address"></div>
@@ -107,6 +116,7 @@
                                 <div class="col-xs-8 col-xs-offset-4 col-sm-3 col-sm-offset-0 col-md-3 col-ms-offset-0 col-lg-1 col-lg-offset-0"><input class="form-control" type="text" readonly id="stu_zip"></div>
                             </div>
                             <br/>
+                            -->
                             <div class="row">
                                 <p>The above named individual has participated in the following co-curricular activities at IVC. 
                                 It is the philosophy of the College that such participation enhances student development and enriches the learning experience.</p>
@@ -219,8 +229,21 @@
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <script src="../include/bootstrap-select/js/bootstrap-select.1.5.4.min.js"></script>
         <script src="../include/jquery-autosize/jquery.autosize.1.18.1.min.js"></script>
+        <script src="../include/jspdf/jspdf.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.addhtml.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.addimage.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.autoprint.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.cell.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.from_html.js"></script>
+        <script src="../include/jspdf//jspdf.plugin.javascript.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.png_support.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.sillysvgrenderer.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.split_text_to_size.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.standard_fonts_metrics.js"></script>
+        <script src="../include/jspdf/jspdf.plugin.total_pages.js"></script>
         <!-- application javascript -->
         <script src="js/newRequest.js"></script>
+        <script src="js/createPDF.js"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
     </body>
