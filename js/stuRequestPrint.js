@@ -140,7 +140,7 @@ $(document).ready(function() {
     
     // print pdf button click //////////////////////////////////////////////////
     $('#btn_prt_pdf').click(function() {
-        window.open('studentHome.html', '_self');
+
         return false;
     });
     
