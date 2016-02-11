@@ -1,6 +1,6 @@
 var login_name = "";
 var m_table;
-var acttype_id = "";
+var org_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
@@ -8,7 +8,7 @@ window.onload = function() {
         $('.splash').css('display', 'none');
         adminSetting();
         getLoginInfo();
-        getActTypeList();
+        getOrganizationList();
     }
     else {
         window.open('Login.html', '_self');
@@ -141,56 +141,56 @@ $(document).ready(function() {
     
     // add category button /////////////////////////////////////////////////////
     $('#btn_acttype_add').click(function() {
-        acttype_id = "";
-        $('#mod_acttype_header').html("New Activity Type");
-        $('#mod_acttype_mame').val("");
-        $('#mod_acttype_descrip').val("").trigger('autosize.resize');
+        org_id = "";
+        $('#mod_org_header').html("New Organization");
+        $('#mod_org_mame').val("");
+        $('#mod_org_descrip').val("").trigger('autosize.resize');
     });
     
     // mod add category save button ////////////////////////////////////////////
-    $('#mod_acttype_btn_save').click(function() {
-        var acttype_name = textReplaceApostrophe($.trim($('#mod_acttype_mame').val()));
-        var acttype_descrip = textReplaceApostrophe($.trim($('#mod_acttype_descrip').val()));
+    $('#mod_org_btn_save').click(function() {
+        var org_name = textReplaceApostrophe($.trim($('#mod_org_mame').val()));
+        var org_descrip = textReplaceApostrophe($.trim($('#mod_org_descrip').val()));
         
-        if (acttype_name === "") {
-            swal({title: "Error", text: "Please enter activity type", type: "error"});
+        if (org_name === "") {
+            swal({title: "Error", text: "Please enter organization name", type: "error"});
             return false;
         }
         
-        if (acttype_id === "") {
-            var new_acttype_id = db_insertActType(acttype_name, acttype_descrip);
-            db_insertTransaction(0, 5, login_name, "Added activity type ID: " + new_acttype_id);
+        if (org_id === "") {
+            var new_org_id = db_insertOrganization(org_name, org_descrip);
+            db_insertTransaction(0, 5, login_name, "Added organization ID: " + new_org_id);
         }
         else {
-            db_updateActType(acttype_id, acttype_name, acttype_descrip);
-            db_insertTransaction(0, 5, login_name, "Update activity type ID: " + acttype_id);
+            db_updateOrganization(org_id, org_name, org_descrip);
+            db_insertTransaction(0, 5, login_name, "Update organization ID: " + org_id);
         }
         
-        $('#mod_add_acttype').modal('hide');
-        getActTypeList();
+        $('#mod_add_org').modal('hide');
+        getOrganizationList();
         return false;
     });
     
     // table category edit click event /////////////////////////////////////////
-    $('table').on('click', 'a[id^="acttype_id_"]', function() {
-        $('#mod_add_acttype').modal('show');
+    $('table').on('click', 'a[id^="org_id_"]', function() {
+        $('#mod_add_org').modal('show');
         
-        acttype_id = $(this).attr('id').replace("acttype_id_", "");
-        var result = db_getActTypeByID(acttype_id);    
+        org_id = $(this).attr('id').replace("org_id_", "");
+        var result = db_getOrganizationByID(org_id);    
         setTimeout(function() { 
-            $('#mod_acttype_header').html("Edit Activity Type");
-            $('#mod_acttype_mame').val(result[0]['ActTypeName']);
-            $('#mod_acttype_descrip').val(result[0]['ActTypeDescrip']).trigger('autosize.resize'); 
+            $('#mod_org_header').html("Edit Organization");
+            $('#mod_org_mame').val(result[0]['OrgName']);
+            $('#mod_org_descrip').val(result[0]['OrgDescrip']).trigger('autosize.resize'); 
         }, 200);
 
         return false;
     });
     
     // auto size
-    $('#mod_acttype_descrip').autosize();
+    $('#mod_org_descrip').autosize();
     
     // jquery datatables initialize ////////////////////////////////////////////
-    m_table = $('#tbl_acttype_list').DataTable({ paging: false, bInfo: false });
+    m_table = $('#tbl_org_list').DataTable({ paging: false, bInfo: false });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 });
@@ -290,9 +290,9 @@ function getLoginInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function getActTypeList() {
+function getOrganizationList() {
     var result = new Array();
-    result = db_getActTypeList();
+    result = db_getOrganizationList();
     
     m_table.clear();
     m_table.rows.add(result).draw();

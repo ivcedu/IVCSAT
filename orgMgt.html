@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
         <meta http-equiv="Cache-Control" content="no-cache"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Activity Type Management</title>
+        <title>Organization Management</title>
         <!-- homer-1.8 Vendor css -->
         <link rel="stylesheet" href="../homer-1.8/vendor/fontawesome/css/font-awesome.css"/>
         <link rel="stylesheet" href="../homer-1.8/vendor/metisMenu/dist/metisMenu.css"/>
@@ -69,7 +69,7 @@
                         <a href="categoryMgt.html"><span class="nav-label">Category</span></a>
                     </li>
                     <li class="active">
-                        <a href="acttypeMgt.html"><span class="nav-label">Activities Type</span></a>
+                        <a href="orgMgt.html"><span class="nav-label">Organization</span></a>
                     </li>
                     <li>
                         <a href="activitiesMgt.html"><span class="nav-label">Activities</span></a>
@@ -88,12 +88,12 @@
                     <div class="panel-body">
                         <div class="container-fluid">
                             <div class="row">
-                                <h3 class="font-light m-b-xs text-center">Student Activities Transcript Activity Type List</h3>
+                                <h3 class="font-light m-b-xs text-center">Organization List</h3>
                             </div>
                             <br>
                             <div class="row form-horizontal">
                                 <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2">
-                                    <button type="button" class="btn btn-primary col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="modal" data-target="#mod_add_acttype" id="btn_acttype_add">Add Act Type</button>
+                                    <button type="button" class="btn btn-primary col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="modal" data-target="#mod_add_org" id="btn_acttype_add">Add Org</button>
                                 </div>
                             </div>
                         </div>
@@ -108,10 +108,10 @@
                             <div class="panel-body">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <table id="tbl_acttype_list" class="table table-striped table-bordered table-hover">
+                                        <table id="tbl_org_list" class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Act Type</th>
+                                                    <th>Organization</th>
                                                     <th>Description</th>
                                                     <th>Edit</th>
                                                 </tr>
@@ -138,29 +138,29 @@
         </div>
         
         <!-- instruction modal -->
-        <div class="modal fade" id="mod_add_acttype" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="mod_add_org" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="color-line"></div>
                     <div class="modal-header text-center">
-                        <h3 id="mod_acttype_header"></h3>
+                        <h3 id="mod_org_header"></h3>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-2" style="padding-top: 7px;">Act Type:</div>
-                                <div class="col-md-10"><input class="col-md-12 form-control" type="text" id="mod_acttype_mame"></div>
+                                <div class="col-md-2" style="padding-top: 7px;">Organization:</div>
+                                <div class="col-md-10"><input class="col-md-12 form-control" type="text" id="mod_org_mame"></div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-2" style="padding-top: 7px;">Descrip:</div>
-                                <div class="col-md-10"><textarea class="col-md-12 form-control" style="height: 55px; resize: vertical;" id="mod_acttype_descrip"></textarea></div>
+                                <div class="col-md-10"><textarea class="col-md-12 form-control" style="height: 55px; resize: vertical;" id="mod_org_descrip"></textarea></div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="mod_acttype_btn_save">Save</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="mod_org_btn_save">Save</button>
                     </div>
                 </div>
             </div>
@@ -180,7 +180,7 @@
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <script src="../include/jquery-autosize/jquery.autosize.1.18.1.min.js"></script>
         <!-- application javascript -->
-        <script src="js/acttypeMgt.js"></script>
+        <script src="js/orgMgt.js"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
     </body>

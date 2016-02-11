@@ -166,11 +166,11 @@ function db_getCategoryByID(CategoryID) {
     return result;
 }
 
-function db_getActTypeList() {   
+function db_getOrganizationList() {   
     var result = new Array();
     $.ajax({
         type:"POST",
-        url:"php/db_getActTypeList.php",
+        url:"php/db_getOrganizationList.php",
         async: false,  
         success:function(data) {
             result = JSON.parse(data);
@@ -179,12 +179,12 @@ function db_getActTypeList() {
     return result;
 }
 
-function db_getActTypeByID(ActTypeID) {
+function db_getOrganizationByID(OrganizationID) {
     var result = "";
     $.ajax({
         type:"POST",
-        url:"php/db_getActTypeByID.php",
-        data:{ActTypeID:ActTypeID},
+        url:"php/db_getOrganizationByID.php",
+        data:{OrganizationID:OrganizationID},
         async: false,  
         success:function(data) {
             result = JSON.parse(data);
@@ -402,12 +402,12 @@ function db_insertCategory(CatName) {
     return ResultID;
 }
 
-function db_insertActType(ActTypeName, ActTypeDescrip) {
+function db_insertOrganization(OrgName, OrgDescrip) {
     var ResultID = "";
     $.ajax({
         type:"POST",
-        url:"php/db_insertActType.php",
-        data:{ActTypeName:ActTypeName, ActTypeDescrip:ActTypeDescrip},
+        url:"php/db_insertOrganization.php",
+        data:{OrgName:OrgName, OrgDescrip:OrgDescrip},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
@@ -416,12 +416,12 @@ function db_insertActType(ActTypeName, ActTypeDescrip) {
     return ResultID;
 }
 
-function db_insertActivities(CategoryID, ActTypeID, FacultyID, ActName, ActDescription) {
+function db_insertActivities(CategoryID, OrganizationID, FacultyID, ActName, ActDescription) {
     var ResultID = "";
     $.ajax({
         type:"POST",
         url:"php/db_insertActivities.php",
-        data:{CategoryID:CategoryID, ActTypeID:ActTypeID, FacultyID:FacultyID, ActName:ActName, ActDescription:ActDescription},
+        data:{CategoryID:CategoryID, OrganizationID:OrganizationID, FacultyID:FacultyID, ActName:ActName, ActDescription:ActDescription},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
@@ -571,12 +571,12 @@ function db_updateCategory(CategoryID, CatName) {
     return Result;
 }
 
-function db_updateActType(ActTypeID, ActTypeName, ActTypeDescrip) {
+function db_updateOrganization(OrganizationID, OrgName, OrgDescrip) {
     var Result = false;
     $.ajax({
         type:"POST",
-        url:"php/db_updateActType.php",
-        data:{ActTypeID:ActTypeID, ActTypeName:ActTypeName, ActTypeDescrip:ActTypeDescrip},
+        url:"php/db_updateOrganization.php",
+        data:{OrganizationID:OrganizationID, OrgName:OrgName, OrgDescrip:OrgDescrip},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);
@@ -585,12 +585,12 @@ function db_updateActType(ActTypeID, ActTypeName, ActTypeDescrip) {
     return Result;
 }
 
-function db_updateActivities(ActivitiesID, CategoryID, ActTypeID, FacultyID, ActName, ActDescription) {
+function db_updateActivities(ActivitiesID, CategoryID, OrganizationID, FacultyID, ActName, ActDescription) {
     var Result = false;
     $.ajax({
         type:"POST",
         url:"php/db_updateActivities.php",
-        data:{ActivitiesID:ActivitiesID, CategoryID:CategoryID, ActTypeID:ActTypeID, FacultyID:FacultyID, ActName:ActName, ActDescription:ActDescription},
+        data:{ActivitiesID:ActivitiesID, CategoryID:CategoryID, OrganizationID:OrganizationID, FacultyID:FacultyID, ActName:ActName, ActDescription:ActDescription},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);

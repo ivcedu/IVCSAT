@@ -9,7 +9,7 @@ window.onload = function() {
         adminSetting();
         getLoginInfo();
         getCategoryList();
-        getActTypeList();
+        getOrganizationList();
         getFacultyList();
         getActivitiesList();
     }
@@ -148,8 +148,8 @@ $(document).ready(function() {
         $('#mod_activity_header').html("New Activity");
         $('#mod_sel_category').val("0");
         $('#mod_sel_category').selectpicker('refresh');
-        $('#mod_sel_acttype').val("0");
-        $('#mod_sel_acttype').selectpicker('refresh');
+        $('#mod_sel_org').val("0");
+        $('#mod_sel_org').selectpicker('refresh');
         $('#mod_sel_faculty').val("0");
         $('#mod_sel_faculty').selectpicker('refresh');
         $('#mod_activity_mame').val("");
@@ -159,21 +159,21 @@ $(document).ready(function() {
     // mod add category save button ////////////////////////////////////////////
     $('#mod_activity_btn_save').click(function() {
         var category_id = $('#mod_sel_category').val();
-        var acttype_id = $('#mod_sel_acttype').val();
+        var org_id = $('#mod_sel_org').val();
         var faculty_id = $('#mod_sel_faculty').val();
         var act_name = textReplaceApostrophe($.trim($('#mod_activity_mame').val()));
         var act_description = textReplaceApostrophe($.trim($('#mod_activity_descrip').val()));
-        if (category_id === "0" || acttype_id === "0" || faculty_id === "0" || act_name === "") {
+        if (category_id === "0" || org_id === "0" || faculty_id === "0" || act_name === "") {
             swal({title: "Error", text: "Please select category, activity type and faculty and enter activities name", type: "error"});
             return false;
         }
         
         if (activities_id === "") {
-            var new_activities_id = db_insertActivities(category_id, acttype_id, faculty_id, act_name, act_description);
+            var new_activities_id = db_insertActivities(category_id, org_id, faculty_id, act_name, act_description);
             db_insertTransaction(0, 6, login_name, "Added activities ID: " + new_activities_id);
         }
         else {
-            db_updateActivities(activities_id, category_id, acttype_id, faculty_id, act_name, act_description);
+            db_updateActivities(activities_id, category_id, org_id, faculty_id, act_name, act_description);
             db_insertTransaction(0, 6, login_name, "Update activities ID: " + activities_id);
         }
         
@@ -192,8 +192,8 @@ $(document).ready(function() {
             $('#mod_activity_header').html("Edit Activities");
             $('#mod_sel_category').val(result[0]['CategoryID']);
             $('#mod_sel_category').selectpicker('refresh');
-            $('#mod_sel_acttype').val(result[0]['ActTypeID']);
-            $('#mod_sel_acttype').selectpicker('refresh');
+            $('#mod_sel_org').val(result[0]['OrganizationID']);
+            $('#mod_sel_org').selectpicker('refresh');
             $('#mod_sel_faculty').val(result[0]['FacultyID']);
             $('#mod_sel_faculty').selectpicker('refresh');
             $('#mod_activity_mame').val(result[0]['ActName']);
@@ -326,19 +326,19 @@ function getCategoryList() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function getActTypeList() {
+function getOrganizationList() {
     var result = new Array(); 
-    result = db_getActTypeList();
+    result = db_getOrganizationList();
     
-    $('#mod_sel_acttype').empty();
+    $('#mod_sel_org').empty();
     var html = "<option value='0'>Select...</option>";
     for (var i = 0; i < result.length; i++) {
-        var str_act_type_id = result[i]['ActTypeID'].replace("<a href=# id='acttype_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
-        html += "<option value='" + str_act_type_id + "'>" + result[i]['ActTypeName'] + "</option>";
+        var str_org_id = result[i]['OrganizationID'].replace("<a href=# id='org_id_", "").replace("'><i class='fa fa-edit'></i></a>", "");
+        html += "<option value='" + str_org_id + "'>" + result[i]['OrgName'] + "</option>";
     }
     
-    $('#mod_sel_acttype').append(html);
-    $('#mod_sel_acttype').selectpicker('refresh');
+    $('#mod_sel_org').append(html);
+    $('#mod_sel_org').selectpicker('refresh');
 }
 
 ////////////////////////////////////////////////////////////////////////////////
